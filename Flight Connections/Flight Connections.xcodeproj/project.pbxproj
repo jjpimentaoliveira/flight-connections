@@ -7,13 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CA055F202ACB5ED90091C833 /* Flight_ConnectionsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F1F2ACB5ED90091C833 /* Flight_ConnectionsApp.swift */; };
-		CA055F222ACB5ED90091C833 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F212ACB5ED90091C833 /* ContentView.swift */; };
+		CA055F202ACB5ED90091C833 /* FlightConnectionsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F1F2ACB5ED90091C833 /* FlightConnectionsApp.swift */; };
+		CA055F222ACB5ED90091C833 /* FlightConnectionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F212ACB5ED90091C833 /* FlightConnectionsView.swift */; };
 		CA055F242ACB5ED90091C833 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA055F232ACB5ED90091C833 /* Assets.xcassets */; };
 		CA055F272ACB5ED90091C833 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA055F262ACB5ED90091C833 /* Preview Assets.xcassets */; };
 		CA055F312ACB5EDA0091C833 /* Flight_ConnectionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F302ACB5EDA0091C833 /* Flight_ConnectionsTests.swift */; };
 		CA055F3B2ACB5EDA0091C833 /* Flight_ConnectionsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F3A2ACB5EDA0091C833 /* Flight_ConnectionsUITests.swift */; };
 		CA055F3D2ACB5EDA0091C833 /* Flight_ConnectionsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F3C2ACB5EDA0091C833 /* Flight_ConnectionsUITestsLaunchTests.swift */; };
+		CA055F4E2ACB644B0091C833 /* Connections.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F4D2ACB644B0091C833 /* Connections.swift */; };
+		CA055F502ACB66D60091C833 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F4F2ACB66D60091C833 /* Connection.swift */; };
+		CA055F522ACB66E10091C833 /* Coordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F512ACB66E10091C833 /* Coordinates.swift */; };
+		CA055F542ACB6B590091C833 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F532ACB6B590091C833 /* Coordinate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,8 +39,8 @@
 
 /* Begin PBXFileReference section */
 		CA055F1C2ACB5ED90091C833 /* Flight Connections.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flight Connections.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CA055F1F2ACB5ED90091C833 /* Flight_ConnectionsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flight_ConnectionsApp.swift; sourceTree = "<group>"; };
-		CA055F212ACB5ED90091C833 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		CA055F1F2ACB5ED90091C833 /* FlightConnectionsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightConnectionsApp.swift; sourceTree = "<group>"; };
+		CA055F212ACB5ED90091C833 /* FlightConnectionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightConnectionsView.swift; sourceTree = "<group>"; };
 		CA055F232ACB5ED90091C833 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CA055F262ACB5ED90091C833 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		CA055F2C2ACB5EDA0091C833 /* Flight ConnectionsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Flight ConnectionsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +48,10 @@
 		CA055F362ACB5EDA0091C833 /* Flight ConnectionsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Flight ConnectionsUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA055F3A2ACB5EDA0091C833 /* Flight_ConnectionsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flight_ConnectionsUITests.swift; sourceTree = "<group>"; };
 		CA055F3C2ACB5EDA0091C833 /* Flight_ConnectionsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flight_ConnectionsUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		CA055F4D2ACB644B0091C833 /* Connections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connections.swift; sourceTree = "<group>"; };
+		CA055F4F2ACB66D60091C833 /* Connection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
+		CA055F512ACB66E10091C833 /* Coordinates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinates.swift; sourceTree = "<group>"; };
+		CA055F532ACB6B590091C833 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,8 +102,9 @@
 		CA055F1E2ACB5ED90091C833 /* Flight Connections */ = {
 			isa = PBXGroup;
 			children = (
-				CA055F1F2ACB5ED90091C833 /* Flight_ConnectionsApp.swift */,
-				CA055F212ACB5ED90091C833 /* ContentView.swift */,
+				CA055F1F2ACB5ED90091C833 /* FlightConnectionsApp.swift */,
+				CA055F212ACB5ED90091C833 /* FlightConnectionsView.swift */,
+				CA055F4C2ACB64370091C833 /* Models */,
 				CA055F232ACB5ED90091C833 /* Assets.xcassets */,
 				CA055F252ACB5ED90091C833 /* Preview Content */,
 			);
@@ -125,6 +134,17 @@
 				CA055F3C2ACB5EDA0091C833 /* Flight_ConnectionsUITestsLaunchTests.swift */,
 			);
 			path = "Flight ConnectionsUITests";
+			sourceTree = "<group>";
+		};
+		CA055F4C2ACB64370091C833 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CA055F4D2ACB644B0091C833 /* Connections.swift */,
+				CA055F4F2ACB66D60091C833 /* Connection.swift */,
+				CA055F512ACB66E10091C833 /* Coordinates.swift */,
+				CA055F532ACB6B590091C833 /* Coordinate.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,8 +277,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA055F222ACB5ED90091C833 /* ContentView.swift in Sources */,
-				CA055F202ACB5ED90091C833 /* Flight_ConnectionsApp.swift in Sources */,
+				CA055F222ACB5ED90091C833 /* FlightConnectionsView.swift in Sources */,
+				CA055F4E2ACB644B0091C833 /* Connections.swift in Sources */,
+				CA055F202ACB5ED90091C833 /* FlightConnectionsApp.swift in Sources */,
+				CA055F502ACB66D60091C833 /* Connection.swift in Sources */,
+				CA055F522ACB66E10091C833 /* Coordinates.swift in Sources */,
+				CA055F542ACB6B590091C833 /* Coordinate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
