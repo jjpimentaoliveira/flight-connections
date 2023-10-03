@@ -18,6 +18,10 @@
 		CA055F502ACB66D60091C833 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F4F2ACB66D60091C833 /* Connection.swift */; };
 		CA055F522ACB66E10091C833 /* Coordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F512ACB66E10091C833 /* Coordinates.swift */; };
 		CA055F542ACB6B590091C833 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F532ACB6B590091C833 /* Coordinate.swift */; };
+		CA055F572ACB6FD10091C833 /* FlightServiceAPIProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F562ACB6FD10091C833 /* FlightServiceAPIProtocol.swift */; };
+		CA055F592ACB6FEB0091C833 /* FlightServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F582ACB6FEB0091C833 /* FlightServiceAPI.swift */; };
+		CA055F5C2ACB78440091C833 /* FlightServiceAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F5B2ACB78440091C833 /* FlightServiceAPIError.swift */; };
+		CA055F602ACB79BA0091C833 /* FlightConnectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F5F2ACB79BA0091C833 /* FlightConnectionsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +56,10 @@
 		CA055F4F2ACB66D60091C833 /* Connection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
 		CA055F512ACB66E10091C833 /* Coordinates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinates.swift; sourceTree = "<group>"; };
 		CA055F532ACB6B590091C833 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
+		CA055F562ACB6FD10091C833 /* FlightServiceAPIProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightServiceAPIProtocol.swift; sourceTree = "<group>"; };
+		CA055F582ACB6FEB0091C833 /* FlightServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightServiceAPI.swift; sourceTree = "<group>"; };
+		CA055F5B2ACB78440091C833 /* FlightServiceAPIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightServiceAPIError.swift; sourceTree = "<group>"; };
+		CA055F5F2ACB79BA0091C833 /* FlightConnectionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightConnectionsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,8 +111,11 @@
 			isa = PBXGroup;
 			children = (
 				CA055F1F2ACB5ED90091C833 /* FlightConnectionsApp.swift */,
-				CA055F212ACB5ED90091C833 /* FlightConnectionsView.swift */,
+				CA055F552ACB6FAB0091C833 /* Services */,
+				CA055F5D2ACB79960091C833 /* Views */,
+				CA055F5E2ACB79A40091C833 /* ViewModels */,
 				CA055F4C2ACB64370091C833 /* Models */,
+				CA055F5A2ACB782A0091C833 /* Error Handling */,
 				CA055F232ACB5ED90091C833 /* Assets.xcassets */,
 				CA055F252ACB5ED90091C833 /* Preview Content */,
 			);
@@ -145,6 +156,39 @@
 				CA055F532ACB6B590091C833 /* Coordinate.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		CA055F552ACB6FAB0091C833 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				CA055F562ACB6FD10091C833 /* FlightServiceAPIProtocol.swift */,
+				CA055F582ACB6FEB0091C833 /* FlightServiceAPI.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		CA055F5A2ACB782A0091C833 /* Error Handling */ = {
+			isa = PBXGroup;
+			children = (
+				CA055F5B2ACB78440091C833 /* FlightServiceAPIError.swift */,
+			);
+			path = "Error Handling";
+			sourceTree = "<group>";
+		};
+		CA055F5D2ACB79960091C833 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CA055F212ACB5ED90091C833 /* FlightConnectionsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CA055F5E2ACB79A40091C833 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CA055F5F2ACB79BA0091C833 /* FlightConnectionsViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -277,9 +321,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA055F572ACB6FD10091C833 /* FlightServiceAPIProtocol.swift in Sources */,
+				CA055F5C2ACB78440091C833 /* FlightServiceAPIError.swift in Sources */,
 				CA055F222ACB5ED90091C833 /* FlightConnectionsView.swift in Sources */,
+				CA055F592ACB6FEB0091C833 /* FlightServiceAPI.swift in Sources */,
 				CA055F4E2ACB644B0091C833 /* Connections.swift in Sources */,
 				CA055F202ACB5ED90091C833 /* FlightConnectionsApp.swift in Sources */,
+				CA055F602ACB79BA0091C833 /* FlightConnectionsViewModel.swift in Sources */,
 				CA055F502ACB66D60091C833 /* Connection.swift in Sources */,
 				CA055F522ACB66E10091C833 /* Coordinates.swift in Sources */,
 				CA055F542ACB6B590091C833 /* Coordinate.swift in Sources */,
