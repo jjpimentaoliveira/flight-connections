@@ -18,7 +18,7 @@ class FlightConnectionsViewModel: ObservableObject {
     @Published var fetchState: FetchState = .loading
 
     private let flightService: FlightServiceAPIProtocol
-    private var connections: Connections?
+    var connections: Connections?
 
     init(flightService: FlightServiceAPIProtocol = FlightServiceAPI()) {
         self.flightService = flightService
