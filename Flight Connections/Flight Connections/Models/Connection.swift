@@ -8,8 +8,8 @@
 import Foundation
 
 struct Connection: Codable {
-    let from: String
-    let to: String
+    let from: String?
+    let to: String?
     let coordinates: Coordinates?
-    let price: Int
+    let price: Int?
 }
