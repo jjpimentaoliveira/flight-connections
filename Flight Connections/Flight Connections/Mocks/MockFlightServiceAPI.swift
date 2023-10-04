@@ -7,11 +7,18 @@
 
 import Foundation
 
+/// A mock implementation of the `FlightServiceAPIProtocol` for testing purposes.
 class MockFlightServiceAPI: FlightServiceAPIProtocol {
 
     var didCallFetchFlightConnections = false
     var fetchFlightConnectionsError: FlightServiceAPIError?
 
+    /// Simulates the behaviour of asynchronously fetching flight connections for testing.
+    ///
+    /// - Returns: A predefined `Connections` object representing flight connections.
+    /// - Throws: An error of type `FlightServiceAPIError` if any simulated issues occur during testing.
+    ///
+    /// - Note: This mock method is intended for testing and does not perform actual network requests.
     func fetchFlightConnections() async throws -> Connections {
 
         didCallFetchFlightConnections = true

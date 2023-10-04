@@ -7,7 +7,17 @@
 
 import Foundation
 
+/// An implementation of the `FlightServiceAPIProtocol` for fetching flight connections from a remote JSON endpoint.
 class FlightServiceAPI: FlightServiceAPIProtocol {
+
+    /// Asynchronously fetches flight connections from a remote JSON endpoint using the `URLSession.shared` instance.
+    ///
+    /// - Returns: A `Connections` object representing the fetched flight connections.
+    /// - Throws: An error of type `FlightServiceAPIError` if any issues occur during the request and response processing.
+    ///
+    /// - Note: This method assumes that `Connections` is a Codable model representing flight connections.
+    ///
+    /// - Important: This method is asynchronous and should be called within an asynchronous context.
     func fetchFlightConnections() async throws -> Connections {
         let endpoint = URL(string: "https://raw.githubusercontent.com/TuiMobilityHub/ios-code-challenge/master/connections.json")
 
@@ -27,7 +37,7 @@ class FlightServiceAPI: FlightServiceAPIProtocol {
 
             // Check if request was successfully processed
             guard (200...299).contains(httpResponse.statusCode) else {
-                throw FlightServiceAPIError.invalidStatusCode(httpResponse.statusCode)
+                throw FlightServiceAPIError.invalidStatusCode(statusCode: httpResponse.statusCode)
             }
 
             // Check if data was returned
@@ -38,9 +48,9 @@ class FlightServiceAPI: FlightServiceAPIProtocol {
             let decodedResponse = try JSONDecoder().decode(Connections.self, from: data)
             return decodedResponse
         } catch let decodingError as DecodingError {
-            throw FlightServiceAPIError.decodingError(decodingError)
+            throw FlightServiceAPIError.decodingError(decodingError: decodingError)
         } catch {
-            throw FlightServiceAPIError.networkError(error)
+            throw FlightServiceAPIError.networkError(networkError: error)
         }
     }
 }
