@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F6768C32AD03BEE00E17473 /* CalculateRouteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6768C22AD03BEE00E17473 /* CalculateRouteButton.swift */; };
 		CA02994A2ACD93F7006D4D23 /* FlightRouteFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0299492ACD93F7006D4D23 /* FlightRouteFinder.swift */; };
 		CA055F202ACB5ED90091C833 /* FlightConnectionsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F1F2ACB5ED90091C833 /* FlightConnectionsApp.swift */; };
 		CA055F222ACB5ED90091C833 /* FlightConnectionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F212ACB5ED90091C833 /* FlightConnectionsView.swift */; };
@@ -47,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9F6768C22AD03BEE00E17473 /* CalculateRouteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculateRouteButton.swift; sourceTree = "<group>"; };
 		CA0299492ACD93F7006D4D23 /* FlightRouteFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightRouteFinder.swift; sourceTree = "<group>"; };
 		CA055F1C2ACB5ED90091C833 /* Flight Connections.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flight Connections.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA055F1F2ACB5ED90091C833 /* FlightConnectionsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightConnectionsApp.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				CA055F212ACB5ED90091C833 /* FlightConnectionsView.swift */,
+				9F6768C22AD03BEE00E17473 /* CalculateRouteButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F6768C32AD03BEE00E17473 /* CalculateRouteButton.swift in Sources */,
 				CAF942042AD0B1D5002B52EE /* RouteFinderError.swift in Sources */,
 				CAF942062AD0BEE4002B52EE /* City.swift in Sources */,
 				CA3D5E442ACCD278001E58AB /* MockFlightServiceAPI.swift in Sources */,
