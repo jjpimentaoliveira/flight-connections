@@ -7,6 +7,6 @@
 
 /// Represents errors that can occur when finding routes between cities using the `FlightRouteFinder`.
 enum RouteFinderError: Error {
-    /// Indicates that no valid path was found between the specified cities.
-    case noValidPath
+    /// Indicates that no valid route was found between the specified cities.
+    case noValidRoute
 }

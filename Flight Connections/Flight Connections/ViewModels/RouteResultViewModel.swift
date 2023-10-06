@@ -20,7 +20,7 @@ class RouteResultViewModel: ObservableObject {
                     resultText = "You could just walk, you know? 🚶🏻‍♂️"
                 }
             } else {
-                resultText = "\(connection.path.joined(separator: " -> "))\nTravel costs: \(connection.cost)"
+                resultText = "\(connection.route.joined(separator: " -> "))\nTravel costs: \(connection.cost)"
             }
 
         case .failure(let error):

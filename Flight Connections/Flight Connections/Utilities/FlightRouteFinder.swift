@@ -42,18 +42,18 @@ class FlightRouteFinder: FlightRouteFinderProtocol {
     /// - Returns: A `Result` containing either the cheapest route (as an array of city names) and its cost or an error of type `RouteFinderError` if no valid path is found.
     func findCheapestRoute(departureCity: String, destinationCity: String) -> Result<(path: [String], cost: Int), RouteFinderError> {
         print("\nTrying to find the cheapest connection from \(departureCity) to \(destinationCity)\n")
-        var cheapestPath: [String] = []
+        var cheapestRoute: [String] = []
         var minCost = Int.max
 
-        func exploreConnections(currentPath: [String], currentCost: Int, currentCity: String, visited: Set<String>) {
+        func exploreConnections(currentRoute: [String], currentCost: Int, currentCity: String, visited: Set<String>) {
             print("Exploring connections from: \(currentCity)")
 
             guard currentCity != destinationCity else {
                 if currentCost < minCost {
                     minCost = currentCost
-                    cheapestPath = currentPath
+                    cheapestRoute = currentRoute
                 }
-                print("Found valid destination! Path: \(currentPath), Cost: \(currentCost)")
+                print("Found valid destination! Route: \(currentRoute), Cost: \(currentCost)")
                 return
             }
 
@@ -66,12 +66,12 @@ class FlightRouteFinder: FlightRouteFinderProtocol {
                 if 
                     let newCity = connection.to,
                     visited.contains(newCity) == false,
-                    currentPath.contains(newCity) == false 
+                    currentRoute.contains(newCity) == false
                 {
-                    let newPath = currentPath + [newCity]
+                    let newRoute = currentRoute + [newCity]
                     let newCost = currentCost + (connection.price ?? 0)
                     exploreConnections(
-                        currentPath: newPath,
+                        currentRoute: newRoute,
                         currentCost: newCost,
                         currentCity: newCity,
                         visited: visited.union([newCity])
@@ -80,14 +80,14 @@ class FlightRouteFinder: FlightRouteFinderProtocol {
             }
         }
 
-        exploreConnections(currentPath: [departureCity], currentCost: 0, currentCity: departureCity, visited: Set())
+        exploreConnections(currentRoute: [departureCity], currentCost: 0, currentCity: departureCity, visited: Set())
 
-        guard !cheapestPath.isEmpty else {
-            print("No valid path found")
-            return .failure(.noValidPath)
+        guard !cheapestRoute.isEmpty else {
+            print("No valid route found")
+            return .failure(.noValidRoute)
         }
 
-        print("Cheapest path found: \(cheapestPath), Cost: \(minCost)")
-        return .success((cheapestPath, minCost))
+        print("Cheapest route found: \(cheapestRoute), Cost: \(minCost)")
+        return .success((cheapestRoute, minCost))
     }
 }
