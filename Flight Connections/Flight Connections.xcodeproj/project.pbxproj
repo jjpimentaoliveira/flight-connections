@@ -23,6 +23,7 @@
 		CA055F5C2ACB78440091C833 /* FlightServiceAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F5B2ACB78440091C833 /* FlightServiceAPIError.swift */; };
 		CA055F602ACB79BA0091C833 /* FlightConnectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F5F2ACB79BA0091C833 /* FlightConnectionsViewModel.swift */; };
 		CA3D5E442ACCD278001E58AB /* MockFlightServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D5E432ACCD278001E58AB /* MockFlightServiceAPI.swift */; };
+		CAF942062AD0BEE4002B52EE /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF942052AD0BEE4002B52EE /* City.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		CA055F5B2ACB78440091C833 /* FlightServiceAPIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightServiceAPIError.swift; sourceTree = "<group>"; };
 		CA055F5F2ACB79BA0091C833 /* FlightConnectionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightConnectionsViewModel.swift; sourceTree = "<group>"; };
 		CA3D5E432ACCD278001E58AB /* MockFlightServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFlightServiceAPI.swift; sourceTree = "<group>"; };
+		CAF942052AD0BEE4002B52EE /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 				CA055F4F2ACB66D60091C833 /* Connection.swift */,
 				CA055F512ACB66E10091C833 /* Coordinates.swift */,
 				CA055F532ACB6B590091C833 /* Coordinate.swift */,
+				CAF942052AD0BEE4002B52EE /* City.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAF942062AD0BEE4002B52EE /* City.swift in Sources */,
 				CA3D5E442ACCD278001E58AB /* MockFlightServiceAPI.swift in Sources */,
 				CA055F572ACB6FD10091C833 /* FlightServiceAPIProtocol.swift in Sources */,
 				CA055F5C2ACB78440091C833 /* FlightServiceAPIError.swift in Sources */,
