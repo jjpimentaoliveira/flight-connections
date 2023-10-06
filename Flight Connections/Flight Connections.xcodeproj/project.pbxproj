@@ -29,6 +29,7 @@
 		CAF942022AD08717002B52EE /* FlightRouteFinderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF942012AD08717002B52EE /* FlightRouteFinderProtocol.swift */; };
 		CAF942042AD0B1D5002B52EE /* RouteFinderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF942032AD0B1D5002B52EE /* RouteFinderError.swift */; };
 		CAF942062AD0BEE4002B52EE /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF942052AD0BEE4002B52EE /* City.swift */; };
+		CAF942082AD0C7E2002B52EE /* RouteResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF942072AD0C7E2002B52EE /* RouteResultViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		CAF942012AD08717002B52EE /* FlightRouteFinderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightRouteFinderProtocol.swift; sourceTree = "<group>"; };
 		CAF942032AD0B1D5002B52EE /* RouteFinderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteFinderError.swift; sourceTree = "<group>"; };
 		CAF942052AD0BEE4002B52EE /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		CAF942072AD0C7E2002B52EE /* RouteResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteResultViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +218,7 @@
 			isa = PBXGroup;
 			children = (
 				CA055F5F2ACB79BA0091C833 /* FlightConnectionsViewModel.swift */,
+				CAF942072AD0C7E2002B52EE /* RouteResultViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -372,6 +375,7 @@
 				CA055F4E2ACB644B0091C833 /* Connections.swift in Sources */,
 				CA055F202ACB5ED90091C833 /* FlightConnectionsApp.swift in Sources */,
 				CA055F602ACB79BA0091C833 /* FlightConnectionsViewModel.swift in Sources */,
+				CAF942082AD0C7E2002B52EE /* RouteResultViewModel.swift in Sources */,
 				CA055F502ACB66D60091C833 /* Connection.swift in Sources */,
 				CA055F522ACB66E10091C833 /* Coordinates.swift in Sources */,
 				CA055F542ACB6B590091C833 /* Coordinate.swift in Sources */,
