@@ -7,12 +7,21 @@
 
 import SwiftUI
 
+enum TextFieldConnectionType {
+    case departure
+    case destination
+}
+
 struct ConnectionSelectionView: View {
 
     @Binding var selectedDepartureCity: String
     @Binding var selectedDestinationCity: String
 
     var buttonAction: () -> Void
+    @ObservedObject var suggestionsViewModel: SuggestionsViewModel
+
+    @FocusState private var departureTextFieldIsFocused: Bool
+    @FocusState private var destinationTextFieldIsFocused: Bool
 
     var body: some View {
         VStack {
@@ -20,15 +29,41 @@ struct ConnectionSelectionView: View {
                 .font(.headline)
 
             TextField("Departure City", text: $selectedDepartureCity)
-            .autocapitalization(.words)
-            .textFieldStyle(.roundedBorder)
+                .autocapitalization(.words)
+                .textFieldStyle(.roundedBorder)
+                .focused($departureTextFieldIsFocused)
+                .onChange(of: departureTextFieldIsFocused) { _, newValue in
+                    departureTextFieldIsFocused = newValue
+                }
+
+            if departureTextFieldIsFocused {
+                SuggestionsView(
+                    suggestions: suggestionsViewModel.departureSuggestions,
+                    onSuggestionSelected: { selectedCity in
+                        selectedDepartureCity = selectedCity
+                    }
+                )
+            }
 
             Text("Select Destination City:")
                 .font(.headline)
 
             TextField("Destination City", text: $selectedDestinationCity)
-            .autocapitalization(.words)
-            .textFieldStyle(.roundedBorder)
+                .autocapitalization(.words)
+                .textFieldStyle(.roundedBorder)
+                .focused($destinationTextFieldIsFocused)
+                .onChange(of: destinationTextFieldIsFocused) { _, newValue in
+                    destinationTextFieldIsFocused = newValue
+                }
+
+            if destinationTextFieldIsFocused {
+                SuggestionsView(
+                    suggestions: suggestionsViewModel.destinationSuggestions,
+                    onSuggestionSelected: { selectedCity in
+                        selectedDestinationCity = selectedCity
+                    }
+                )
+            }
 
             CalculateRouteButton {
                 buttonAction()
@@ -37,6 +72,12 @@ struct ConnectionSelectionView: View {
             Spacer()
         }
         .padding()
+        .onChange(of: selectedDepartureCity) { _, newValue in
+            suggestionsViewModel.updateSuggestions(for: .departure, with: newValue)
+        }
+        .onChange(of: selectedDestinationCity) { _, newValue in
+            suggestionsViewModel.updateSuggestions(for: .destination, with: newValue)
+        }
     }
 }
 
@@ -44,6 +85,7 @@ struct ConnectionSelectionView: View {
     ConnectionSelectionView(
         selectedDepartureCity: .constant("Departure City"),
         selectedDestinationCity: .constant("Destination City"),
-        buttonAction: { }
+        buttonAction: { }, 
+        suggestionsViewModel: SuggestionsViewModel(uniqueCities: ([], []))
     )
 }

@@ -25,8 +25,7 @@ struct FlightConnectionsView: View {
             case .fetched(let connections):
                 ConnectionSelectionView(
                     selectedDepartureCity: $selectedDepartureCity,
-                    selectedDestinationCity: $selectedDestinationCity, 
-                    connections: connections,
+                    selectedDestinationCity: $selectedDestinationCity,
                     buttonAction: {
                         flightRouteFinder.addConnections(connections)
                         routeFinderResult = flightRouteFinder.findCheapestRoute(
@@ -34,7 +33,8 @@ struct FlightConnectionsView: View {
                             destinationCity: selectedDestinationCity
                         )
                         routeResultViewModel.updateResultText(result: routeFinderResult)
-                    }
+                    },
+                    suggestionsViewModel: SuggestionsViewModel(uniqueCities: connections.uniqueCities())
                 )
 
                 RouteResultView(routeResultViewModel: routeResultViewModel)
