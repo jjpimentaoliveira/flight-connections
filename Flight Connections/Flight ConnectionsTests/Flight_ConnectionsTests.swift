@@ -14,147 +14,157 @@ final class Flight_ConnectionsTests: XCTestCase {
     var flightViewModel: FlightConnectionsViewModel?
     var flightRouteFinder: FlightRouteFinder = FlightRouteFinder()
 
-    let jsonData = """
- {
-   "connections": [
-     {
-       "from": "London",
-       "to": "Tokyo",
-       "coordinates": {
-         "from": {
-           "lat": 51.5285582,
-           "long": -0.241681
-         },
-         "to": {
-           "lat": 35.652832,
-           "long": 139.839478
+    func loadConnectionsFromJSON() -> Connections? {
+        let jsonData = """
+         {
+           "connections": [
+             {
+               "from": "London",
+               "to": "Tokyo",
+               "coordinates": {
+                 "from": {
+                   "lat": 51.5285582,
+                   "long": -0.241681
+                 },
+                 "to": {
+                   "lat": 35.652832,
+                   "long": 139.839478
+                 }
+               },
+               "price": 220
+             },
+             {
+               "from": "Tokyo",
+               "to": "London",
+               "coordinates": {
+                 "from": {
+                   "lat": 35.652832,
+                   "long": 139.839478
+                 },
+                 "to": {
+                   "lat": 51.5285582,
+                   "long": -0.241681
+                 }
+               },
+               "price": 200
+             },
+             {
+               "from": "London",
+               "to": "Porto",
+               "price": 50,
+               "coordinates": {
+                 "from": {
+                   "lat": 51.5285582,
+                   "long": -0.241681
+                 },
+                 "to": {
+                   "lat": 41.14961,
+                   "long": -8.61099
+                 }
+               }
+             },
+             {
+               "from": "Tokyo",
+               "to": "Sydney",
+               "price": 100,
+               "coordinates": {
+                 "from": {
+                   "lat": 35.652832,
+                   "long": 139.839478
+                 },
+                 "to": {
+                   "lat": -33.865143,
+                   "long": 151.2099
+                 }
+               }
+             },
+             {
+               "from": "Sydney",
+               "to": "Cape Town",
+               "price": 200,
+               "coordinates": {
+                 "from": {
+                   "lat": -33.865143,
+                   "long": 151.2099
+                 },
+                 "to": {
+                   "lat": -33.918861,
+                   "long": 18.4233
+                 }
+               }
+             },
+             {
+               "from": "Cape Town",
+               "to": "London",
+               "price": 800,
+               "coordinates": {
+                 "from": {
+                   "lat": -33.918861,
+                   "long": 18.4233
+                 },
+                 "to": {
+                   "lat": 51.5285582,
+                   "long": -0.241681
+                 }
+               }
+             },
+             {
+               "from": "London",
+               "to": "New York",
+               "price": 400,
+               "coordinates": {
+                 "from": {
+                   "lat": 51.5285582,
+                   "long": -0.241681
+                 },
+                 "to": {
+                   "lat": 40.73061,
+                   "long": -73.935242
+                 }
+               }
+             },
+             {
+               "from": "New York",
+               "to": "Los Angeles",
+               "price": 120,
+               "coordinates": {
+                 "from": {
+                   "lat": 40.73061,
+                   "long": -73.935242
+                 },
+                 "to": {
+                   "lat": 34.052235,
+                   "long": -118.243683
+                 }
+               }
+             },
+             {
+               "from": "Los Angeles",
+               "to": "Tokyo",
+               "price": 150,
+               "coordinates": {
+                 "from": {
+                   "lat": 34.052235,
+                   "long": -118.243683
+                 },
+                 "to": {
+                   "lat": 35.652832,
+                   "long": 139.839478
+                 }
+               }
+             }
+           ]
          }
-       },
-       "price": 220
-     },
-     {
-       "from": "Tokyo",
-       "to": "London",
-       "coordinates": {
-         "from": {
-           "lat": 35.652832,
-           "long": 139.839478
-         },
-         "to": {
-           "lat": 51.5285582,
-           "long": -0.241681
-         }
-       },
-       "price": 200
-     },
-     {
-       "from": "London",
-       "to": "Porto",
-       "price": 50,
-       "coordinates": {
-         "from": {
-           "lat": 51.5285582,
-           "long": -0.241681
-         },
-         "to": {
-           "lat": 41.14961,
-           "long": -8.61099
-         }
-       }
-     },
-     {
-       "from": "Tokyo",
-       "to": "Sydney",
-       "price": 100,
-       "coordinates": {
-         "from": {
-           "lat": 35.652832,
-           "long": 139.839478
-         },
-         "to": {
-           "lat": -33.865143,
-           "long": 151.2099
-         }
-       }
-     },
-     {
-       "from": "Sydney",
-       "to": "Cape Town",
-       "price": 200,
-       "coordinates": {
-         "from": {
-           "lat": -33.865143,
-           "long": 151.2099
-         },
-         "to": {
-           "lat": -33.918861,
-           "long": 18.4233
-         }
-       }
-     },
-     {
-       "from": "Cape Town",
-       "to": "London",
-       "price": 800,
-       "coordinates": {
-         "from": {
-           "lat": -33.918861,
-           "long": 18.4233
-         },
-         "to": {
-           "lat": 51.5285582,
-           "long": -0.241681
-         }
-       }
-     },
-     {
-       "from": "London",
-       "to": "New York",
-       "price": 400,
-       "coordinates": {
-         "from": {
-           "lat": 51.5285582,
-           "long": -0.241681
-         },
-         "to": {
-           "lat": 40.73061,
-           "long": -73.935242
-         }
-       }
-     },
-     {
-       "from": "New York",
-       "to": "Los Angeles",
-       "price": 120,
-       "coordinates": {
-         "from": {
-           "lat": 40.73061,
-           "long": -73.935242
-         },
-         "to": {
-           "lat": 34.052235,
-           "long": -118.243683
-         }
-       }
-     },
-     {
-       "from": "Los Angeles",
-       "to": "Tokyo",
-       "price": 150,
-       "coordinates": {
-         "from": {
-           "lat": 34.052235,
-           "long": -118.243683
-         },
-         "to": {
-           "lat": 35.652832,
-           "long": 139.839478
-         }
-       }
-     }
-   ]
- }
-"""
+        """
+            .data(using: .utf8)
+
+        do {
+            return try JSONDecoder().decode(Connections.self, from: jsonData ?? Data())
+        } catch {
+            XCTFail("Error decoding JSON: \(error)")
+            return nil
+        }
+    }
 
     override func setUp() {
         super.setUp()
@@ -178,7 +188,7 @@ final class Flight_ConnectionsTests: XCTestCase {
         XCTAssertEqual(flightViewModel?.connections?.connections.count, 2)
     }
 
-    func test_FetchFlightConnections_Failure() async {
+    func test_FetchFlightConnections_Failure_InvalidResponse() async {
         mockFlightService.fetchFlightConnectionsError = .invalidResponse
 
         await flightViewModel?.fetchFlightConnections()
@@ -187,15 +197,8 @@ final class Flight_ConnectionsTests: XCTestCase {
         XCTAssertEqual(flightViewModel?.connections?.connections.count, nil)
     }
 
-    func test_FindCheapestConnection_Success() {
-        var connections: Connections?
-        if let jsonData = jsonData.data(using: .utf8) {
-            do {
-                connections = try JSONDecoder().decode(Connections.self, from: jsonData)
-            } catch {
-                print("Error decoding JSON: \(error)")
-            }
-        }
+    func test_FindCheapestConnection_SuccessfulRoute() {
+        let connections = loadConnectionsFromJSON()
 
         flightRouteFinder.addConnections(connections?.connections ?? [])
 
@@ -234,15 +237,8 @@ final class Flight_ConnectionsTests: XCTestCase {
         }
     }
 
-    func test_FindCheapestConnection_Duplicate_Success() {
-        var connections: Connections?
-        if let jsonData = jsonData.data(using: .utf8) {
-            do {
-                connections = try JSONDecoder().decode(Connections.self, from: jsonData)
-            } catch {
-                print("Error decoding JSON: \(error)")
-            }
-        }
+    func test_FindCheapestConnection_Success_Duplicate() {
+        let connections = loadConnectionsFromJSON()
 
         flightRouteFinder.addConnections(connections?.connections ?? [])
         let result = flightViewModel?.findCheapestRoute(
@@ -262,15 +258,8 @@ final class Flight_ConnectionsTests: XCTestCase {
         }
     }
 
-    func test_FindCheapestConnection_NoConnectionFound_Failure() {
-        var connections: Connections?
-        if let jsonData = jsonData.data(using: .utf8) {
-            do {
-                connections = try JSONDecoder().decode(Connections.self, from: jsonData)
-            } catch {
-                print("Error decoding JSON: \(error)")
-            }
-        }
+    func test_FindCheapestConnection_Failure_NoConnectionFound() {
+        let connections = loadConnectionsFromJSON()
 
         flightRouteFinder.addConnections(connections?.connections ?? [])
         let result = flightViewModel?.findCheapestRoute(
@@ -289,15 +278,8 @@ final class Flight_ConnectionsTests: XCTestCase {
         }
     }
 
-    func test_FindCheapestConnection_InvalidInput_Failure() {
-        var connections: Connections?
-        if let jsonData = jsonData.data(using: .utf8) {
-            do {
-                connections = try JSONDecoder().decode(Connections.self, from: jsonData)
-            } catch {
-                print("Error decoding JSON: \(error)")
-            }
-        }
+    func test_FindCheapestConnection_Failure_InvalidInput() {
+        let connections = loadConnectionsFromJSON()
 
         flightRouteFinder.addConnections(connections?.connections ?? [])
 
@@ -333,14 +315,7 @@ final class Flight_ConnectionsTests: XCTestCase {
     }
 
     func test_AddConnections_Success() {
-        var connections: Connections?
-        if let jsonData = jsonData.data(using: .utf8) {
-            do {
-                connections = try JSONDecoder().decode(Connections.self, from: jsonData)
-            } catch {
-                XCTFail("Error decoding JSON: \(error)")
-            }
-        }
+        let connections = loadConnectionsFromJSON()
 
         flightRouteFinder.addConnections(
             connections?.connections ?? []
