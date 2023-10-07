@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct FlightConnectionsView: View {
-    @StateObject private var viewModel = FlightConnectionsViewModel()
+    @StateObject private var flightConnectionViewModel = FlightConnectionsViewModel()
     @ObservedObject private var routeResultViewModel = RouteResultViewModel()
+    private let flightRouteFinder = FlightRouteFinder()
 
     @State private var selectedDepartureCity: String = ""
     @State private var selectedDestinationCity: String = ""
@@ -17,25 +18,28 @@ struct FlightConnectionsView: View {
 
     var body: some View {
         VStack {
-            switch viewModel.fetchState {
+            switch flightConnectionViewModel.fetchState {
             case .loading:
                 ProgressView()
 
-            case .fetched:
-                ConnectionSelectionView(
-                    selectedDepartureCity: $selectedDepartureCity,
-                    selectedDestinationCity: $selectedDestinationCity,
-                    buttonAction: {
-                        routeFinderResult = viewModel.findCheapestRoute(
-                            departureCity: selectedDepartureCity.capitalized.trimmingCharacters(in: .whitespacesAndNewlines),
-                            destinationCity: selectedDestinationCity.capitalized.trimmingCharacters(in: .whitespacesAndNewlines)
-                        )
+            case .fetched(let connections):
+                ScrollView {
+                    ConnectionSelectionView(
+                        selectedDepartureCity: $selectedDepartureCity,
+                        selectedDestinationCity: $selectedDestinationCity,
+                        buttonAction: {
+                            flightRouteFinder.addConnections(connections)
+                            routeFinderResult = flightRouteFinder.findCheapestRoute(
+                                departureCity: selectedDepartureCity,
+                                destinationCity: selectedDestinationCity
+                            )
+                            routeResultViewModel.updateResultText(result: routeFinderResult)
+                        },
+                        suggestionsViewModel: SuggestionsViewModel(uniqueCities: connections.uniqueCities())
+                    )
 
-                        routeResultViewModel.updateResultText(result: routeFinderResult)
-                    }
-                )
-
-                RouteResultView(routeResultViewModel: routeResultViewModel)
+                    RouteResultView(routeResultViewModel: routeResultViewModel)
+                }
 
             case .error(let error):
                 Text("Error occurred: \(error.localizedDescription)")
@@ -44,7 +48,7 @@ struct FlightConnectionsView: View {
             }
         }
         .task {
-            await viewModel.fetchFlightConnections()
+            await flightConnectionViewModel.fetchFlightConnections()
         }
         .padding()
     }

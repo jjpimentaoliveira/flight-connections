@@ -27,7 +27,8 @@
 		CA055F602ACB79BA0091C833 /* FlightConnectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA055F5F2ACB79BA0091C833 /* FlightConnectionsViewModel.swift */; };
 		CA3D5E442ACCD278001E58AB /* MockFlightServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D5E432ACCD278001E58AB /* MockFlightServiceAPI.swift */; };
 		CA3D5E482ACCE705001E58AB /* ConnectionSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3D5E472ACCE705001E58AB /* ConnectionSelectionView.swift */; };
-		CAF942022AD08717002B52EE /* FlightRouteFinderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF942012AD08717002B52EE /* FlightRouteFinderProtocol.swift */; };
+		CA8085F52AD140AD00E12ABF /* SuggestionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8085F42AD140AD00E12ABF /* SuggestionsViewModel.swift */; };
+		CA8085F72AD1410C00E12ABF /* SuggestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8085F62AD1410C00E12ABF /* SuggestionsView.swift */; };
 		CAF942042AD0B1D5002B52EE /* RouteFinderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF942032AD0B1D5002B52EE /* RouteFinderError.swift */; };
 		CAF942062AD0BEE4002B52EE /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF942052AD0BEE4002B52EE /* City.swift */; };
 		CAF942082AD0C7E2002B52EE /* RouteResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF942072AD0C7E2002B52EE /* RouteResultViewModel.swift */; };
@@ -74,7 +75,8 @@
 		CA055F5F2ACB79BA0091C833 /* FlightConnectionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightConnectionsViewModel.swift; sourceTree = "<group>"; };
 		CA3D5E432ACCD278001E58AB /* MockFlightServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFlightServiceAPI.swift; sourceTree = "<group>"; };
 		CA3D5E472ACCE705001E58AB /* ConnectionSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionSelectionView.swift; sourceTree = "<group>"; };
-		CAF942012AD08717002B52EE /* FlightRouteFinderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightRouteFinderProtocol.swift; sourceTree = "<group>"; };
+		CA8085F42AD140AD00E12ABF /* SuggestionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsViewModel.swift; sourceTree = "<group>"; };
+		CA8085F62AD1410C00E12ABF /* SuggestionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestionsView.swift; sourceTree = "<group>"; };
 		CAF942032AD0B1D5002B52EE /* RouteFinderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteFinderError.swift; sourceTree = "<group>"; };
 		CAF942052AD0BEE4002B52EE /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		CAF942072AD0C7E2002B52EE /* RouteResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteResultViewModel.swift; sourceTree = "<group>"; };
@@ -108,7 +110,6 @@
 		CA0299482ACD9378006D4D23 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				CAF942012AD08717002B52EE /* FlightRouteFinderProtocol.swift */,
 				CA0299492ACD93F7006D4D23 /* FlightRouteFinder.swift */,
 			);
 			path = Utilities;
@@ -213,6 +214,7 @@
 				CA3D5E472ACCE705001E58AB /* ConnectionSelectionView.swift */,
 				9F6768C22AD03BEE00E17473 /* CalculateRouteButton.swift */,
 				9F6768C42AD0424400E17473 /* RouteResultView.swift */,
+				CA8085F62AD1410C00E12ABF /* SuggestionsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -222,6 +224,7 @@
 			children = (
 				CA055F5F2ACB79BA0091C833 /* FlightConnectionsViewModel.swift */,
 				CAF942072AD0C7E2002B52EE /* RouteResultViewModel.swift */,
+				CA8085F42AD140AD00E12ABF /* SuggestionsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -370,8 +373,9 @@
 				9F6768C52AD0424400E17473 /* RouteResultView.swift in Sources */,
 				CA3D5E442ACCD278001E58AB /* MockFlightServiceAPI.swift in Sources */,
 				CA055F572ACB6FD10091C833 /* FlightServiceAPIProtocol.swift in Sources */,
+				CA8085F52AD140AD00E12ABF /* SuggestionsViewModel.swift in Sources */,
 				CA055F5C2ACB78440091C833 /* FlightServiceAPIError.swift in Sources */,
-				CAF942022AD08717002B52EE /* FlightRouteFinderProtocol.swift in Sources */,
+				CA8085F72AD1410C00E12ABF /* SuggestionsView.swift in Sources */,
 				CA055F222ACB5ED90091C833 /* FlightConnectionsView.swift in Sources */,
 				CA02994A2ACD93F7006D4D23 /* FlightRouteFinder.swift in Sources */,
 				CA055F592ACB6FEB0091C833 /* FlightServiceAPI.swift in Sources */,
