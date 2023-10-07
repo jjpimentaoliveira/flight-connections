@@ -9,6 +9,11 @@ import SwiftUI
 
 struct FlightConnectionsView: View {
     @StateObject private var viewModel = FlightConnectionsViewModel()
+    @ObservedObject private var routeResultViewModel = RouteResultViewModel()
+
+    @State private var selectedDepartureCity: String = ""
+    @State private var selectedDestinationCity: String = ""
+    @State private var routeFinderResult: Result<(route: [String], cost: Int), RouteFinderError> = .failure(.invalidInput)
 
     var body: some View {
         VStack {
@@ -16,11 +21,26 @@ struct FlightConnectionsView: View {
             case .loading:
                 ProgressView()
 
-            case .fetched(let connections):
-                Text(connections.connections.first?.from ?? "")
+            case .fetched:
+                ConnectionSelectionView(
+                    selectedDepartureCity: $selectedDepartureCity,
+                    selectedDestinationCity: $selectedDestinationCity,
+                    buttonAction: {
+                        routeFinderResult = viewModel.findCheapestRoute(
+                            departureCity: selectedDepartureCity.capitalized.trimmingCharacters(in: .whitespacesAndNewlines),
+                            destinationCity: selectedDestinationCity.capitalized.trimmingCharacters(in: .whitespacesAndNewlines)
+                        )
+
+                        routeResultViewModel.updateResultText(result: routeFinderResult)
+                    }
+                )
+
+                RouteResultView(routeResultViewModel: routeResultViewModel)
 
             case .error(let error):
                 Text("Error occurred: \(error.localizedDescription)")
+                    .font(.headline)
+                    .padding()
             }
         }
         .task {
