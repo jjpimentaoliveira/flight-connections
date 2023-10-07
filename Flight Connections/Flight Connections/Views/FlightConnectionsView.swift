@@ -10,6 +10,7 @@ import SwiftUI
 struct FlightConnectionsView: View {
     @StateObject private var flightConnectionViewModel = FlightConnectionsViewModel()
     @ObservedObject private var routeResultViewModel = RouteResultViewModel()
+    private let flightRouteFinder = FlightRouteFinder()
 
     @State private var selectedDepartureCity: String = ""
     @State private var selectedDestinationCity: String = ""
@@ -21,16 +22,17 @@ struct FlightConnectionsView: View {
             case .loading:
                 ProgressView()
 
-            case .fetched:
+            case .fetched(let connections):
                 ConnectionSelectionView(
                     selectedDepartureCity: $selectedDepartureCity,
-                    selectedDestinationCity: $selectedDestinationCity,
+                    selectedDestinationCity: $selectedDestinationCity, 
+                    connections: connections,
                     buttonAction: {
-                        routeFinderResult = flightConnectionViewModel.findCheapestRoute(
-                            departureCity: selectedDepartureCity.capitalized.trimmingCharacters(in: .whitespacesAndNewlines),
-                            destinationCity: selectedDestinationCity.capitalized.trimmingCharacters(in: .whitespacesAndNewlines)
+                        flightRouteFinder.addConnections(connections)
+                        routeFinderResult = flightRouteFinder.findCheapestRoute(
+                            departureCity: selectedDepartureCity,
+                            destinationCity: selectedDestinationCity
                         )
-
                         routeResultViewModel.updateResultText(result: routeFinderResult)
                     }
                 )

@@ -7,22 +7,24 @@
 
 import Foundation
 
-class FlightRouteFinder: FlightRouteFinderProtocol {
+class FlightRouteFinder {
     
     /// A collection of cities and their flight connections used for route calculations.
     ///
     /// The `departureCities` dictionary maps city names to `City` objects, where each `City` contains  information about the city and its *outgoing* flight connections.
     var departureCities: [String: City] = [:]
 
-    /// Adds connections to the `FlightRouteFinder` for further route calculations.
+    /// Adds flight connections to the `FlightRouteFinder` for further route calculations.
     ///
-    /// - Parameter connections: An array of `Connection` objects representing flight connections.
-    /// Only connections with valid 'from' and 'to' city names and non-negative prices will be added to the `FlightRouteFinder`.
-    func addConnections(_ connections: [Connection]) {
-        for connection in connections {
+    /// - Parameters:
+    ///   - connections: An instance of `Connections` containing flight connections.
+    ///
+    /// Only connections with valid 'from' and 'to' city names, and non-negative prices will be added to the `FlightRouteFinder`.
+    func addConnections(_ connections: Connections) {
+        for connection in connections.connections {
             if
-                let from = connection.from, from.isEmpty == false,
-                let to = connection.to, to.isEmpty == false,
+                let from = connection.from, from.trimmingCharacters(in: .whitespaces).isEmpty == false,
+                let to = connection.to, to.trimmingCharacters(in: .whitespaces).isEmpty == false,
                 let price = connection.price, price >= 0
             {
                 if departureCities[from] == nil {
@@ -42,6 +44,8 @@ class FlightRouteFinder: FlightRouteFinderProtocol {
     ///
     /// - Returns: A `Result` containing the cheapest route and its cost if a valid route is found, or a `RouteFinderError` if the input is invalid or no route is found.
     func findCheapestRoute(departureCity: String, destinationCity: String) -> Result<(route: [String], cost: Int), RouteFinderError> {
+        let departureCity = departureCity.capitalized.trimmingCharacters(in: .whitespaces)
+        let destinationCity = destinationCity.capitalized.trimmingCharacters(in: .whitespaces)
 
         guard
             departureCity.isEmpty == false,

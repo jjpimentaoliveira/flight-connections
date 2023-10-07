@@ -14,7 +14,7 @@ final class Flight_ConnectionsTests: XCTestCase {
     var flightViewModel: FlightConnectionsViewModel?
     var flightRouteFinder: FlightRouteFinder = FlightRouteFinder()
 
-    func loadConnectionsFromJSON() -> Connections? {
+    func loadConnectionsFromJSON() -> Connections {
         let jsonData = """
          {
            "connections": [
@@ -156,22 +156,19 @@ final class Flight_ConnectionsTests: XCTestCase {
            ]
          }
         """
-            .data(using: .utf8)
+            .data(using: .utf8) ?? Data()
 
         do {
-            return try JSONDecoder().decode(Connections.self, from: jsonData ?? Data())
+            return try JSONDecoder().decode(Connections.self, from: jsonData)
         } catch {
             XCTFail("Error decoding JSON: \(error)")
-            return nil
+            return Connections(connections: [])
         }
     }
 
     override func setUp() {
         super.setUp()
-        flightViewModel = FlightConnectionsViewModel(
-            flightService: mockFlightService,
-            flightRouteFinder: flightRouteFinder
-        )
+        flightViewModel = FlightConnectionsViewModel(flightService: mockFlightService)
     }
 
     override func tearDown() {
@@ -199,15 +196,15 @@ final class Flight_ConnectionsTests: XCTestCase {
 
     func test_FindCheapestConnection_SuccessfulRoute() {
         let connections = loadConnectionsFromJSON()
+        flightRouteFinder.addConnections(connections)
 
-        flightRouteFinder.addConnections(connections?.connections ?? [])
-
-        let result1 = flightViewModel?.findCheapestRoute(departureCity: "Tokyo", destinationCity: "Sydney") ?? .failure(.noRouteFound)
-        let result2 = flightViewModel?.findCheapestRoute(departureCity: "London", destinationCity: "Sydney") ?? .failure(.noRouteFound)
-        let result3 = flightViewModel?.findCheapestRoute(departureCity: "Los Angeles", destinationCity: "Cape Town") ?? .failure(.noRouteFound)
+        let result1 = flightRouteFinder.findCheapestRoute(departureCity: "Tokyo", destinationCity: "Sydney")
+        let result2 = flightRouteFinder.findCheapestRoute(departureCity: "London", destinationCity: "Sydney")
+        let result3 = flightRouteFinder.findCheapestRoute(departureCity: "  los angeles", destinationCity: "CAPE TOWN ")
 
         XCTAssertNotNil(result1)
         XCTAssertNotNil(result2)
+        XCTAssertNotNil(result3)
 
         switch result1 {
         case .success(let (route, cost)):
@@ -239,13 +236,9 @@ final class Flight_ConnectionsTests: XCTestCase {
 
     func test_FindCheapestConnection_Success_Duplicate() {
         let connections = loadConnectionsFromJSON()
+        flightRouteFinder.addConnections(connections)
 
-        flightRouteFinder.addConnections(connections?.connections ?? [])
-        let result = flightViewModel?.findCheapestRoute(
-            departureCity: "Tokyo",
-            destinationCity: "Tokyo"
-        ) ?? .failure(.noRouteFound)
-
+        let result = flightRouteFinder.findCheapestRoute(departureCity: "Tokyo", destinationCity: "Tokyo")
         XCTAssertNotNil(result)
 
         switch result {
@@ -260,13 +253,9 @@ final class Flight_ConnectionsTests: XCTestCase {
 
     func test_FindCheapestConnection_Failure_NoConnectionFound() {
         let connections = loadConnectionsFromJSON()
+        flightRouteFinder.addConnections(connections)
 
-        flightRouteFinder.addConnections(connections?.connections ?? [])
-        let result = flightViewModel?.findCheapestRoute(
-            departureCity: "Guimarães",
-            destinationCity: "Porto"
-        ) ?? .success(([""], 10))
-
+        let result = flightRouteFinder.findCheapestRoute(departureCity: "Guimarães", destinationCity: "Porto")
         XCTAssertNotNil(result)
 
         switch result {
@@ -280,14 +269,9 @@ final class Flight_ConnectionsTests: XCTestCase {
 
     func test_FindCheapestConnection_Failure_InvalidInput() {
         let connections = loadConnectionsFromJSON()
+        flightRouteFinder.addConnections(connections)
 
-        flightRouteFinder.addConnections(connections?.connections ?? [])
-
-        let result1 = flightViewModel?.findCheapestRoute(
-            departureCity: "Guimarães",
-            destinationCity: ""
-        ) ?? .success(([""], 10))
-
+        let result1 = flightRouteFinder.findCheapestRoute(departureCity: "Guimarães", destinationCity: "")
         XCTAssertNotNil(result1)
 
         switch result1 {
@@ -298,11 +282,7 @@ final class Flight_ConnectionsTests: XCTestCase {
             XCTAssertEqual(error, .invalidInput)
         }
 
-        let result2 = flightViewModel?.findCheapestRoute(
-            departureCity: "",
-            destinationCity: "Guimarães"
-        ) ?? .success(([""], 10))
-
+        let result2 = flightRouteFinder.findCheapestRoute(departureCity: "", destinationCity: "Guimarães")
         XCTAssertNotNil(result2)
 
         switch result2 {
@@ -316,10 +296,7 @@ final class Flight_ConnectionsTests: XCTestCase {
 
     func test_AddConnections_Success() {
         let connections = loadConnectionsFromJSON()
-
-        flightRouteFinder.addConnections(
-            connections?.connections ?? []
-        )
+        flightRouteFinder.addConnections(connections)
 
         XCTAssertEqual(flightRouteFinder.departureCities.count, 6)
         XCTAssertEqual(flightRouteFinder.departureCities["Los Angeles"]?.connections.count, 1)
@@ -333,35 +310,37 @@ final class Flight_ConnectionsTests: XCTestCase {
 
     func test_AddConnection_Failure() {
         flightRouteFinder.departureCities.removeAll()
-        flightRouteFinder.addConnections([
-            Connection(
-                from: "",
-                to: "Destination",
-                coordinates: Coordinates(
-                    from: Coordinate(lat: 10, long: 20),
-                    to: Coordinate(lat: 10, long: 20)
+        flightRouteFinder.addConnections(Connections(
+            connections: [
+                Connection(
+                    from: "",
+                    to: "Destination",
+                    coordinates: Coordinates(
+                        from: Coordinate(lat: 10, long: 20),
+                        to: Coordinate(lat: 10, long: 20)
+                    ),
+                    price: 100
                 ),
-                price: 100
-            ),
-            Connection(
-                from: "Source",
-                to: "",
-                coordinates: Coordinates(
-                    from: Coordinate(lat: 10, long: 20),
-                    to: Coordinate(lat: 10, long: 20)
-                ),                
-                price: 100
-            ),
-            Connection(
-                from: "Source",
-                to: "Destination",
-                coordinates: Coordinates(
-                    from: Coordinate(lat: 10, long: 20),
-                    to: Coordinate(lat: 10, long: 20)
+                Connection(
+                    from: "Source",
+                    to: "    ",
+                    coordinates: Coordinates(
+                        from: Coordinate(lat: 10, long: 20),
+                        to: Coordinate(lat: 10, long: 20)
+                    ),
+                    price: 100
                 ),
-                price: -50
-            )
-        ])
+                Connection(
+                    from: "Source",
+                    to: "Destination",
+                    coordinates: Coordinates(
+                        from: Coordinate(lat: 10, long: 20),
+                        to: Coordinate(lat: 10, long: 20)
+                    ),
+                    price: -50
+                )
+            ]
+        ))
 
         XCTAssertEqual(flightRouteFinder.departureCities.count, 0)
     }
