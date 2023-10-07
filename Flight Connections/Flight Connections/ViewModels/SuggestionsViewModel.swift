@@ -37,6 +37,16 @@ class SuggestionsViewModel: ObservableObject {
         }
     }
 
+    /// Updates the suggestions based on the provided input and list of cities.
+    ///
+    /// This private method filters a list of cities based on the input string.
+    /// It populates the `suggestions` array with `CitySuggestion` objects that match the filtered cities.
+    /// If there are no matching cities, it adds a `.noSuggestions` suggestion to indicate no matches.
+    ///
+    /// - Parameters:
+    ///   - input: The input string used to filter cities.
+    ///   - cities: The list of cities to filter.
+    ///   - suggestions: The array to be populated with city suggestions.
     private func updateSuggestions(with input: String, in cities: [String], to suggestions: inout [CitySuggestion]) {
         let filteredCities = cities.filter { $0.hasPrefix(input) }
         suggestions = filteredCities.isEmpty ? [.noSuggestions] : filteredCities.map { .city($0) }

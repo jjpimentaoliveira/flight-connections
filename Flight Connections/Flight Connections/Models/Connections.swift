@@ -8,6 +8,11 @@
 struct Connections: Codable {
     let connections: [Connection]
 
+    /// Calculates and returns unique departure and destination cities from the available flight connections.
+    ///
+    /// This function iterates through the flight connections and identifies unique departure and destination cities.
+    ///
+    /// - Returns: A tuple containing two arrays: `departures` and `destinations`, which represent unique departure and destination cities, respectively.
     func uniqueCities() -> (departures: [String], destinations: [String]) {
         var uniqueDepartureSet = Set<String>()
         var uniqueDestinationSet = Set<String>()

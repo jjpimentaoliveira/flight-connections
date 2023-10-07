@@ -24,6 +24,11 @@ class FlightConnectionsViewModel: ObservableObject {
         self.flightService = flightService
     }
 
+    /// Fetches flight connections asynchronously from the flight service.
+    ///
+    /// This method makes an asynchronous call to the `flightService` to retrieve flight connections.
+    /// Upon success, it updates the `connections` property and sets the `fetchState` to `.fetched`.
+    /// In case of an error, it sets the `fetchState` to `.error` and provides details about the error.
     func fetchFlightConnections() async {
         do {
             connections = try await flightService.fetchFlightConnections()
