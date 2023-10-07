@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FlightConnectionsView: View {
-    @StateObject private var viewModel = FlightConnectionsViewModel()
+    @StateObject private var flightConnectionViewModel = FlightConnectionsViewModel()
     @ObservedObject private var routeResultViewModel = RouteResultViewModel()
 
     @State private var selectedDepartureCity: String = ""
@@ -17,7 +17,7 @@ struct FlightConnectionsView: View {
 
     var body: some View {
         VStack {
-            switch viewModel.fetchState {
+            switch flightConnectionViewModel.fetchState {
             case .loading:
                 ProgressView()
 
@@ -26,7 +26,7 @@ struct FlightConnectionsView: View {
                     selectedDepartureCity: $selectedDepartureCity,
                     selectedDestinationCity: $selectedDestinationCity,
                     buttonAction: {
-                        routeFinderResult = viewModel.findCheapestRoute(
+                        routeFinderResult = flightConnectionViewModel.findCheapestRoute(
                             departureCity: selectedDepartureCity.capitalized.trimmingCharacters(in: .whitespacesAndNewlines),
                             destinationCity: selectedDestinationCity.capitalized.trimmingCharacters(in: .whitespacesAndNewlines)
                         )
@@ -44,7 +44,7 @@ struct FlightConnectionsView: View {
             }
         }
         .task {
-            await viewModel.fetchFlightConnections()
+            await flightConnectionViewModel.fetchFlightConnections()
         }
         .padding()
     }
