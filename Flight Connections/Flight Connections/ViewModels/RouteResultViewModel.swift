@@ -10,15 +10,11 @@ import Foundation
 class RouteResultViewModel: ObservableObject {
     @Published var resultText: String = ""
 
-    func updateResultText(result: Result<(path: [String], cost: Int), RouteFinderError>) {
+    func updateResultText(result: Result<(route: [String], cost: Int), RouteFinderError>) {
         switch result {
         case .success(let connection):
-            if connection.path.count == 1 {
-                if connection.path.first?.isEmpty ?? true {
-                    resultText = ""
-                } else {
-                    resultText = "You could just walk, you know? 🚶🏻‍♂️"
-                }
+            if connection.route.count == 1 {
+                resultText = "You could just walk, you know? 🚶🏻‍♂️"
             } else {
                 resultText = "\(connection.route.joined(separator: " -> "))\nTravel costs: \(connection.cost)"
             }

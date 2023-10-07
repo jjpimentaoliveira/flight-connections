@@ -34,13 +34,22 @@ class FlightRouteFinder: FlightRouteFinderProtocol {
         }
     }
 
-    /// Attempts to find the cheapest route between two cities using the `FlightRouteFinder`.
+    /// Finds the cheapest route between two cities using the flight route finder.
     ///
     /// - Parameters:
-    ///   - departureCity: The city where the journey begins.
-    ///   - destinationCity: The city where the journey ends.
-    /// - Returns: A `Result` containing either the cheapest route (as an array of city names) and its cost or an error of type `RouteFinderError` if no valid path is found.
-    func findCheapestRoute(departureCity: String, destinationCity: String) -> Result<(path: [String], cost: Int), RouteFinderError> {
+    ///   - departureCity: The name of the departure city.
+    ///   - destinationCity: The name of the destination city.
+    ///
+    /// - Returns: A `Result` containing the cheapest route and its cost if a valid route is found, or a `RouteFinderError` if the input is invalid or no route is found.
+    func findCheapestRoute(departureCity: String, destinationCity: String) -> Result<(route: [String], cost: Int), RouteFinderError> {
+
+        guard
+            departureCity.isEmpty == false,
+            destinationCity.isEmpty == false
+        else {
+            return .failure(.invalidInput)
+        }
+
         print("\nTrying to find the cheapest connection from \(departureCity) to \(destinationCity)\n")
         var cheapestRoute: [String] = []
         var minCost = Int.max
@@ -84,7 +93,7 @@ class FlightRouteFinder: FlightRouteFinderProtocol {
 
         guard !cheapestRoute.isEmpty else {
             print("No valid route found")
-            return .failure(.noValidRoute)
+            return .failure(.noRouteFound)
         }
 
         print("Cheapest route found: \(cheapestRoute), Cost: \(minCost)")

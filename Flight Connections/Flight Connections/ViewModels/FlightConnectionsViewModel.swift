@@ -9,19 +9,24 @@ import Foundation
 
 enum FetchState {
     case loading
-    case fetched(connections: Connections)
+    case fetched
     case error(error: Error)
 }
 
 class FlightConnectionsViewModel: ObservableObject {
 
-    @Published var fetchState: FetchState = .loading
-
     private let flightService: FlightServiceAPIProtocol
+    private let flightRouteFinder: FlightRouteFinderProtocol
+
+    @Published var fetchState: FetchState = .loading
     var connections: Connections?
 
-    init(flightService: FlightServiceAPIProtocol = FlightServiceAPI()) {
+    init(
+        flightService: FlightServiceAPIProtocol = FlightServiceAPI(),
+        flightRouteFinder: FlightRouteFinderProtocol = FlightRouteFinder()
+    ) {
         self.flightService = flightService
+        self.flightRouteFinder = flightRouteFinder
     }
 
     func fetchFlightConnections() async {
@@ -29,7 +34,8 @@ class FlightConnectionsViewModel: ObservableObject {
             connections = try await flightService.fetchFlightConnections()
             DispatchQueue.main.async { [weak self] in
                 print("Connections successfully fetched")
-                self?.fetchState = .fetched(connections: self?.connections ?? Connections(connections: []))
+                self?.flightRouteFinder.addConnections(self?.connections?.connections ?? [])
+                self?.fetchState = .fetched
             }
         } catch {
             DispatchQueue.main.async { [weak self] in
@@ -37,5 +43,15 @@ class FlightConnectionsViewModel: ObservableObject {
                 self?.fetchState = .error(error: error)
             }
         }
+    }
+
+    func findCheapestRoute(
+        departureCity: String,
+        destinationCity: String
+    ) -> Result<(route: [String], cost: Int), RouteFinderError> {
+        return flightRouteFinder.findCheapestRoute(
+            departureCity: departureCity,
+            destinationCity: destinationCity
+        )
     }
 }

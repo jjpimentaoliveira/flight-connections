@@ -199,9 +199,9 @@ final class Flight_ConnectionsTests: XCTestCase {
 
         flightRouteFinder.addConnections(connections?.connections ?? [])
 
-        let result1 = flightViewModel?.findCheapestRoute(departureCity: "Tokyo", destinationCity: "Sydney") ?? .failure(.noValidRoute)
-        let result2 = flightViewModel?.findCheapestRoute(departureCity: "London", destinationCity: "Sydney") ?? .failure(.noValidRoute)
-        let result3 = flightViewModel?.findCheapestRoute(departureCity: "los angeles", destinationCity: "CAPE TOWN") ?? .failure(.noValidRoute)
+        let result1 = flightViewModel?.findCheapestRoute(departureCity: "Tokyo", destinationCity: "Sydney") ?? .failure(.noRouteFound)
+        let result2 = flightViewModel?.findCheapestRoute(departureCity: "London", destinationCity: "Sydney") ?? .failure(.noRouteFound)
+        let result3 = flightViewModel?.findCheapestRoute(departureCity: "Los Angeles", destinationCity: "Cape Town") ?? .failure(.noRouteFound)
 
         XCTAssertNotNil(result1)
         XCTAssertNotNil(result2)
@@ -245,7 +245,10 @@ final class Flight_ConnectionsTests: XCTestCase {
         }
 
         flightRouteFinder.addConnections(connections?.connections ?? [])
-        let result = flightViewModel?.findCheapestRoute(departureCity: "Tokyo", destinationCity: "Tokyo") ?? .failure(.noValidRoute)
+        let result = flightViewModel?.findCheapestRoute(
+            departureCity: "Tokyo",
+            destinationCity: "Tokyo"
+        ) ?? .failure(.noRouteFound)
 
         XCTAssertNotNil(result)
 
@@ -282,7 +285,50 @@ final class Flight_ConnectionsTests: XCTestCase {
             XCTFail("No route should have been found")
 
         case .failure(let error):
-            XCTAssertEqual(error, .noValidRoute)
+            XCTAssertEqual(error, .noRouteFound)
+        }
+    }
+
+    func test_FindCheapestConnection_InvalidInput_Failure() {
+        var connections: Connections?
+        if let jsonData = jsonData.data(using: .utf8) {
+            do {
+                connections = try JSONDecoder().decode(Connections.self, from: jsonData)
+            } catch {
+                print("Error decoding JSON: \(error)")
+            }
+        }
+
+        flightRouteFinder.addConnections(connections?.connections ?? [])
+
+        let result1 = flightViewModel?.findCheapestRoute(
+            departureCity: "Guimarães",
+            destinationCity: ""
+        ) ?? .success(([""], 10))
+
+        XCTAssertNotNil(result1)
+
+        switch result1 {
+        case .success:
+            XCTFail("No route should have been found")
+
+        case .failure(let error):
+            XCTAssertEqual(error, .invalidInput)
+        }
+
+        let result2 = flightViewModel?.findCheapestRoute(
+            departureCity: "",
+            destinationCity: "Guimarães"
+        ) ?? .success(([""], 10))
+
+        XCTAssertNotNil(result2)
+
+        switch result2 {
+        case .success:
+            XCTFail("No route should have been found")
+
+        case .failure(let error):
+            XCTAssertEqual(error, .invalidInput)
         }
     }
 
