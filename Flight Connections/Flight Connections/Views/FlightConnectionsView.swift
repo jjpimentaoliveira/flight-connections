@@ -23,21 +23,23 @@ struct FlightConnectionsView: View {
                 ProgressView()
 
             case .fetched(let connections):
-                ConnectionSelectionView(
-                    selectedDepartureCity: $selectedDepartureCity,
-                    selectedDestinationCity: $selectedDestinationCity,
-                    buttonAction: {
-                        flightRouteFinder.addConnections(connections)
-                        routeFinderResult = flightRouteFinder.findCheapestRoute(
-                            departureCity: selectedDepartureCity,
-                            destinationCity: selectedDestinationCity
-                        )
-                        routeResultViewModel.updateResultText(result: routeFinderResult)
-                    },
-                    suggestionsViewModel: SuggestionsViewModel(uniqueCities: connections.uniqueCities())
-                )
+                ScrollView {
+                    ConnectionSelectionView(
+                        selectedDepartureCity: $selectedDepartureCity,
+                        selectedDestinationCity: $selectedDestinationCity,
+                        buttonAction: {
+                            flightRouteFinder.addConnections(connections)
+                            routeFinderResult = flightRouteFinder.findCheapestRoute(
+                                departureCity: selectedDepartureCity,
+                                destinationCity: selectedDestinationCity
+                            )
+                            routeResultViewModel.updateResultText(result: routeFinderResult)
+                        },
+                        suggestionsViewModel: SuggestionsViewModel(uniqueCities: connections.uniqueCities())
+                    )
 
-                RouteResultView(routeResultViewModel: routeResultViewModel)
+                    RouteResultView(routeResultViewModel: routeResultViewModel)
+                }
 
             case .error(let error):
                 Text("Error occurred: \(error.localizedDescription)")
