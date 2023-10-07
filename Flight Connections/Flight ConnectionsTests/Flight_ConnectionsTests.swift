@@ -12,7 +12,24 @@ final class Flight_ConnectionsTests: XCTestCase {
 
     var mockFlightService: MockFlightServiceAPI = MockFlightServiceAPI()
     var flightViewModel: FlightConnectionsViewModel?
+    var suggestionsViewModel: SuggestionsViewModel?
+    var routeResultViewModel: RouteResultViewModel?
     var flightRouteFinder: FlightRouteFinder = FlightRouteFinder()
+
+    override func setUp() {
+        super.setUp()
+
+        flightViewModel = FlightConnectionsViewModel(flightService: mockFlightService)
+        suggestionsViewModel = SuggestionsViewModel(uniqueCities: loadConnectionsFromJSON().uniqueCities())
+        routeResultViewModel = RouteResultViewModel()
+    }
+
+    override func tearDown() {
+        flightViewModel = nil
+        suggestionsViewModel = nil
+        routeResultViewModel = nil
+        super.tearDown()
+    }
 
     func loadConnectionsFromJSON() -> Connections {
         let jsonData = """
@@ -164,16 +181,6 @@ final class Flight_ConnectionsTests: XCTestCase {
             XCTFail("Error decoding JSON: \(error)")
             return Connections(connections: [])
         }
-    }
-
-    override func setUp() {
-        super.setUp()
-        flightViewModel = FlightConnectionsViewModel(flightService: mockFlightService)
-    }
-
-    override func tearDown() {
-        flightViewModel = nil
-        super.tearDown()
     }
 
     func test_FetchFlightConnections_Successful() async {
@@ -343,5 +350,43 @@ final class Flight_ConnectionsTests: XCTestCase {
         ))
 
         XCTAssertEqual(flightRouteFinder.departureCities.count, 0)
+    }
+
+    func testUpdateResultTextSuccess() {
+        let successResult: Result<(route: [String], cost: Int), RouteFinderError> = .success((route: ["City A", "City B"], cost: 100))
+        routeResultViewModel?.updateResultText(result: successResult)
+        XCTAssertEqual(routeResultViewModel?.resultText, "City A -> City B\nTravel costs: 100")
+    }
+
+    func testUpdateResultTextFailure() {
+        let failureResult1: Result<(route: [String], cost: Int), RouteFinderError> = .failure(.invalidInput)
+        routeResultViewModel?.updateResultText(result: failureResult1)
+        XCTAssertEqual(routeResultViewModel?.resultText, "No connection found: invalidInput")
+
+        let failureResult2: Result<(route: [String], cost: Int), RouteFinderError> = .failure(.noRouteFound)
+        routeResultViewModel?.updateResultText(result: failureResult2)
+        XCTAssertEqual(routeResultViewModel?.resultText, "No connection found: noRouteFound")
+    }
+
+    func testUpdateResultTextSingleCity() {
+        let singleCityResult: Result<(route: [String], cost: Int), RouteFinderError> = .success((route: ["City A"], cost: 0))
+        routeResultViewModel?.updateResultText(result: singleCityResult)
+        XCTAssertEqual(routeResultViewModel?.resultText, "You could just walk, you know? 🚶🏻‍♂️")
+    }
+
+    func test_Suggestions_Departure() {
+        suggestionsViewModel?.updateSuggestions(for: .departure, with: "New")
+        XCTAssertTrue(suggestionsViewModel?.departureSuggestions.contains(.city("New York")) ?? false)
+
+        suggestionsViewModel?.updateSuggestions(for: .departure, with: "Porto")
+        XCTAssertTrue(suggestionsViewModel?.departureSuggestions.contains(.noSuggestions) ?? false)
+    }
+
+    func test_Suggestions_Destination() {
+        suggestionsViewModel?.updateSuggestions(for: .destination, with: "Lon")
+        XCTAssertTrue(suggestionsViewModel?.destinationSuggestions.contains(.city("London")) ?? false)
+
+        suggestionsViewModel?.updateSuggestions(for: .destination, with: "Guimarães")
+        XCTAssertTrue(suggestionsViewModel?.destinationSuggestions.contains(.noSuggestions) ?? false)
     }
 }
