@@ -35,7 +35,9 @@ struct FlightConnectionsView: View {
                             )
                             routeResultViewModel.updateResultText(result: routeFinderResult)
                         },
-                        suggestionsViewModel: SuggestionsViewModel(uniqueCities: connections.uniqueCities())
+                        suggestionsViewModel: SuggestionsViewModel(
+                            uniqueDeparturesAndDestinations: connections.uniqueDeparturesAndDestinations()
+                        )
                     )
 
                     RouteResultView(routeResultViewModel: routeResultViewModel)

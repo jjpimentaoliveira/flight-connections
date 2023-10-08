@@ -86,6 +86,6 @@ struct ConnectionSelectionView: View {
         selectedDepartureCity: .constant("Departure City"),
         selectedDestinationCity: .constant("Destination City"),
         buttonAction: { }, 
-        suggestionsViewModel: SuggestionsViewModel(uniqueCities: ([], []))
+        suggestionsViewModel: SuggestionsViewModel(uniqueDeparturesAndDestinations: ([], []))
     )
 }

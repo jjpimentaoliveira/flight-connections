@@ -20,7 +20,9 @@ final class Flight_ConnectionsTests: XCTestCase {
         super.setUp()
 
         flightViewModel = FlightConnectionsViewModel(flightService: mockFlightService)
-        suggestionsViewModel = SuggestionsViewModel(uniqueCities: loadConnectionsFromJSON().uniqueCities())
+        suggestionsViewModel = SuggestionsViewModel(
+            uniqueDeparturesAndDestinations: loadConnectionsFromJSON().uniqueDeparturesAndDestinations()
+        )
         routeResultViewModel = RouteResultViewModel()
     }
 
