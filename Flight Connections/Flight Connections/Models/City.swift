@@ -5,7 +5,7 @@
 //  Created by José João Pimenta Oliveira on 06/10/2023.
 //
 
-struct City {
+struct City: Hashable {
     let name: String
-    var connections: [Connection]
+    let coordinate: Coordinate
 }

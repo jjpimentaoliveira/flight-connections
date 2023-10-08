@@ -12,7 +12,8 @@ class FlightRouteFinder {
     /// A collection of cities and their flight connections used for route calculations.
     ///
     /// The `departureCities` dictionary maps city names to `City` objects, where each `City` contains  information about the city and its *outgoing* flight connections.
-    var departureCities: [String: City] = [:]
+    var departureCities: [String: [Connection]] = [:]
+    var uniqueCities: Set<City> = []
 
     /// Adds flight connections to the `FlightRouteFinder` for further route calculations.
     ///
@@ -22,17 +23,42 @@ class FlightRouteFinder {
     /// Only connections with valid 'from' and 'to' city names, and non-negative prices will be added to the `FlightRouteFinder`.
     func addConnections(_ connections: Connections) {
         for connection in connections.connections {
-            if
+            guard
                 let from = connection.from, from.trimmingCharacters(in: .whitespaces).isEmpty == false,
                 let to = connection.to, to.trimmingCharacters(in: .whitespaces).isEmpty == false,
                 let price = connection.price, price >= 0
-            {
-                if departureCities[from] == nil {
-                    departureCities[from] = City(name: from, connections: [connection])
-                } else {
-                    departureCities[from]?.connections.append(connection)
-                }
+            else {
+                continue
             }
+
+            addDepartureCityAndConnection(from, connection)
+            if let fromCoordinates = connection.coordinates?.from {
+                addCityCoordinate(from, fromCoordinates)
+            }
+            if let toCoordinates = connection.coordinates?.to {
+                addCityCoordinate(to, toCoordinates)
+            }
+        }
+    }
+
+    private func addDepartureCityAndConnection(_ cityName: String, _ connection: Connection) {
+        if departureCities[cityName] == nil {
+            departureCities[cityName] = [connection]
+        } else {
+            departureCities[cityName]?.append(connection)
+        }
+    }
+
+    private func addCityCoordinate(_ cityName: String, _ coordinates: Coordinate) {
+        if let lat = coordinates.lat, let long = coordinates.long {
+            let city = City(
+                name: cityName,
+                coordinate: Coordinate(
+                    lat: lat,
+                    long: long
+                )
+            )
+            uniqueCities.insert(city)
         }
     }
 
@@ -43,7 +69,7 @@ class FlightRouteFinder {
     ///   - destinationCity: The name of the destination city.
     ///
     /// - Returns: A `Result` containing the cheapest route and its cost if a valid route is found, or a `RouteFinderError` if the input is invalid or no route is found.
-    func findCheapestRoute(departureCity: String, destinationCity: String) -> Result<(route: [String], cost: Int), RouteFinderError> {
+    func findCheapestRoute(departureCity: String, destinationCity: String) -> Result<(route: [City], cost: Int), RouteFinderError> {
         let departureCity = departureCity.capitalized.trimmingCharacters(in: .whitespaces)
         let destinationCity = destinationCity.capitalized.trimmingCharacters(in: .whitespaces)
 
@@ -55,7 +81,7 @@ class FlightRouteFinder {
         }
 
         print("\nTrying to find the cheapest connection from \(departureCity) to \(destinationCity)\n")
-        var cheapestRoute: [String] = []
+        var citiesInCheapestRoute: [City] = []
         var minCost = Int.max
 
         func exploreConnections(currentRoute: [String], currentCost: Int, currentCity: String, visited: Set<String>) {
@@ -64,19 +90,21 @@ class FlightRouteFinder {
             guard currentCity != destinationCity else {
                 if currentCost < minCost {
                     minCost = currentCost
-                    cheapestRoute = currentRoute
+                    citiesInCheapestRoute = currentRoute.compactMap { cityName in
+                        uniqueCities.first { $0.name == cityName }
+                    }
                 }
                 print("Found valid destination! Route: \(currentRoute), Cost: \(currentCost)")
                 return
             }
 
-            guard let current = departureCities[currentCity] else {
+            guard let connections = departureCities[currentCity] else {
                 print("\(currentCity) has no departures. Moving on...")
                 return
             }
 
-            for connection in current.connections {
-                if 
+            for connection in connections {
+                if
                     let newCity = connection.to,
                     visited.contains(newCity) == false,
                     currentRoute.contains(newCity) == false
@@ -95,12 +123,12 @@ class FlightRouteFinder {
 
         exploreConnections(currentRoute: [departureCity], currentCost: 0, currentCity: departureCity, visited: Set())
 
-        guard !cheapestRoute.isEmpty else {
+        guard !citiesInCheapestRoute.isEmpty else {
             print("No valid route found")
             return .failure(.noRouteFound)
         }
 
-        print("Cheapest route found: \(cheapestRoute), Cost: \(minCost)")
-        return .success((cheapestRoute, minCost))
+        print("Cheapest route found: \(citiesInCheapestRoute.map { $0.name }), Cost: \(minCost)")
+        return .success((citiesInCheapestRoute, minCost))
     }
 }

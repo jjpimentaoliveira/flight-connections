@@ -14,7 +14,7 @@ struct FlightConnectionsView: View {
 
     @State private var selectedDepartureCity: String = ""
     @State private var selectedDestinationCity: String = ""
-    @State private var routeFinderResult: Result<(route: [String], cost: Int), RouteFinderError> = .failure(.invalidInput)
+    @State private var routeFinderResult: Result<(route: [City], cost: Int), RouteFinderError> = .failure(.invalidInput)
 
     var body: some View {
         VStack {

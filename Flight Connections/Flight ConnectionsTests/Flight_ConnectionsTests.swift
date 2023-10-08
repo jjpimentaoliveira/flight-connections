@@ -218,7 +218,10 @@ final class Flight_ConnectionsTests: XCTestCase {
         switch result1 {
         case .success(let (route, cost)):
             XCTAssertEqual(cost, 100)
-            XCTAssertEqual(route, ["Tokyo", "Sydney"])
+            XCTAssertEqual(route, [
+                City(name: "Tokyo", coordinate: Coordinate(lat: 35.652832, long: 139.839478)),
+                City(name: "Sydney", coordinate: Coordinate(lat: -33.865143, long: 151.2099))
+            ])
 
         case .failure(let error):
             XCTFail("Error finding cheapest route: \(error)")
@@ -227,7 +230,11 @@ final class Flight_ConnectionsTests: XCTestCase {
         switch result2 {
         case .success(let (route, cost)):
             XCTAssertEqual(cost, 320)
-            XCTAssertEqual(route, ["London", "Tokyo", "Sydney"])
+            XCTAssertEqual(route, [
+                City(name: "London", coordinate: Coordinate(lat: 51.5285582, long: -0.241681)),
+                City(name: "Tokyo", coordinate: Coordinate(lat: 35.652832, long: 139.839478)),
+                City(name: "Sydney", coordinate: Coordinate(lat: -33.865143, long: 151.2099))
+            ])
 
         case .failure(let error):
             XCTFail("Error finding cheapest route: \(error)")
@@ -236,7 +243,12 @@ final class Flight_ConnectionsTests: XCTestCase {
         switch result3 {
         case .success(let (route, cost)):
             XCTAssertEqual(cost, 450)
-            XCTAssertEqual(route, ["Los Angeles", "Tokyo", "Sydney", "Cape Town"])
+            XCTAssertEqual(route, [
+                City(name: "Los Angeles", coordinate: Coordinate(lat: 34.052235, long: -118.243683)),
+                City(name: "Tokyo", coordinate: Coordinate(lat: 35.652832, long: 139.839478)),
+                City(name: "Sydney", coordinate: Coordinate(lat: -33.865143, long: 151.2099)),
+                City(name: "Cape Town", coordinate: Coordinate(lat: -33.918861, long: 18.4233))
+            ])
 
         case .failure(let error):
             XCTFail("Error finding cheapest route: \(error)")
@@ -253,7 +265,7 @@ final class Flight_ConnectionsTests: XCTestCase {
         switch result {
         case .success(let (route, cost)):
             XCTAssertEqual(cost, 0)
-            XCTAssertEqual(route, ["Tokyo"])
+            XCTAssertEqual(route, [City(name: "Tokyo", coordinate: Coordinate(lat: 35.652832, long: 139.839478))])
 
         case .failure(let error):
             XCTFail("Error finding cheapest route: \(error)")
@@ -308,13 +320,13 @@ final class Flight_ConnectionsTests: XCTestCase {
         flightRouteFinder.addConnections(connections)
 
         XCTAssertEqual(flightRouteFinder.departureCities.count, 6)
-        XCTAssertEqual(flightRouteFinder.departureCities["Los Angeles"]?.connections.count, 1)
-        XCTAssertEqual(flightRouteFinder.departureCities["London"]?.connections.count, 3)
-        XCTAssertEqual(flightRouteFinder.departureCities["Porto"]?.connections.count, nil)
-        XCTAssertEqual(flightRouteFinder.departureCities["Sydney"]?.connections.first?.to, "Cape Town")
-        XCTAssertEqual(flightRouteFinder.departureCities["Sydney"]?.connections.first?.from, "Sydney")
-        XCTAssertEqual(flightRouteFinder.departureCities["New York"]?.connections.first?.to, "Los Angeles")
-        XCTAssertEqual(flightRouteFinder.departureCities["New York"]?.connections.first?.price, 120)
+        XCTAssertEqual(flightRouteFinder.departureCities["Los Angeles"]?.count, 1)
+        XCTAssertEqual(flightRouteFinder.departureCities["London"]?.count, 3)
+        XCTAssertEqual(flightRouteFinder.departureCities["Porto"]?.count, nil)
+        XCTAssertEqual(flightRouteFinder.departureCities["Sydney"]?.first?.to, "Cape Town")
+        XCTAssertEqual(flightRouteFinder.departureCities["Sydney"]?.first?.from, "Sydney")
+        XCTAssertEqual(flightRouteFinder.departureCities["New York"]?.first?.to, "Los Angeles")
+        XCTAssertEqual(flightRouteFinder.departureCities["New York"]?.first?.price, 120)
     }
 
     func test_AddConnection_Failure() {
@@ -355,23 +367,34 @@ final class Flight_ConnectionsTests: XCTestCase {
     }
 
     func testUpdateResultTextSuccess() {
-        let successResult: Result<(route: [String], cost: Int), RouteFinderError> = .success((route: ["City A", "City B"], cost: 100))
+        let successResult: Result<(route: [City], cost: Int), RouteFinderError> = .success((
+            route: [
+                City(name: "City A", coordinate: Coordinate(lat: 10, long: 20)),
+                City(name: "City B", coordinate: Coordinate(lat: 20, long: 10))
+            ],
+            cost: 100
+        ))
         routeResultViewModel?.updateResultText(result: successResult)
         XCTAssertEqual(routeResultViewModel?.resultText, "City A -> City B\nTravel costs: 100")
     }
 
     func testUpdateResultTextFailure() {
-        let failureResult1: Result<(route: [String], cost: Int), RouteFinderError> = .failure(.invalidInput)
+        let failureResult1: Result<(route: [City], cost: Int), RouteFinderError> = .failure(.invalidInput)
         routeResultViewModel?.updateResultText(result: failureResult1)
         XCTAssertEqual(routeResultViewModel?.resultText, "No connection found: invalidInput")
 
-        let failureResult2: Result<(route: [String], cost: Int), RouteFinderError> = .failure(.noRouteFound)
+        let failureResult2: Result<(route: [City], cost: Int), RouteFinderError> = .failure(.noRouteFound)
         routeResultViewModel?.updateResultText(result: failureResult2)
         XCTAssertEqual(routeResultViewModel?.resultText, "No connection found: noRouteFound")
     }
 
     func testUpdateResultTextSingleCity() {
-        let singleCityResult: Result<(route: [String], cost: Int), RouteFinderError> = .success((route: ["City A"], cost: 0))
+        let singleCityResult: Result<(route: [City], cost: Int), RouteFinderError> = .success((
+            route: [
+                City(name: "A", coordinate: Coordinate(lat: 10, long: 20))
+            ],
+            cost: 0
+        ))
         routeResultViewModel?.updateResultText(result: singleCityResult)
         XCTAssertEqual(routeResultViewModel?.resultText, "You could just walk, you know? 🚶🏻‍♂️")
     }
