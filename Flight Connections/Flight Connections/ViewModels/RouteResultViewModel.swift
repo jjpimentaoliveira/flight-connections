@@ -17,13 +17,14 @@ class RouteResultViewModel: ObservableObject {
     /// In case of an error, it sets the `resultText` to display the error message.
     ///
     /// - Parameter result: A `Result` containing either a successful route or an error.
-    func updateResultText(result: Result<(route: [String], cost: Int), RouteFinderError>) {
+    func updateResultText(result: Result<RouteFinderResult, RouteFinderError>) {
         switch result {
-        case .success(let connection):
-            if connection.route.count == 1 {
+        case .success(let result):
+            if result.route.count == 1 {
                 resultText = "You could just walk, you know? 🚶🏻‍♂️"
             } else {
-                resultText = "\(connection.route.joined(separator: " -> "))\nTravel costs: \(connection.cost)"
+                let routeNames = result.route.map { $0.name }
+                resultText = "\(routeNames.joined(separator: " -> "))\nTravel costs: \(result.cost)"
             }
 
         case .failure(let error):

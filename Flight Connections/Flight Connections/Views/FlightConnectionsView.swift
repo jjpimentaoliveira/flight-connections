@@ -14,7 +14,7 @@ struct FlightConnectionsView: View {
 
     @State private var selectedDepartureCity: String = ""
     @State private var selectedDestinationCity: String = ""
-    @State private var routeFinderResult: Result<(route: [String], cost: Int), RouteFinderError> = .failure(.invalidInput)
+    @State private var routeFinderResult: Result<RouteFinderResult, RouteFinderError> = .failure(.invalidInput)
 
     var body: some View {
         VStack {
@@ -27,7 +27,7 @@ struct FlightConnectionsView: View {
                     ConnectionSelectionView(
                         selectedDepartureCity: $selectedDepartureCity,
                         selectedDestinationCity: $selectedDestinationCity,
-                        buttonAction: {
+                        calculateRouteButtonAction: {
                             flightRouteFinder.addConnections(connections)
                             routeFinderResult = flightRouteFinder.findCheapestRoute(
                                 departureCity: selectedDepartureCity,
@@ -35,7 +35,9 @@ struct FlightConnectionsView: View {
                             )
                             routeResultViewModel.updateResultText(result: routeFinderResult)
                         },
-                        suggestionsViewModel: SuggestionsViewModel(uniqueCities: connections.uniqueCities())
+                        suggestionsViewModel: SuggestionsViewModel(
+                            uniqueDeparturesAndDestinations: connections.uniqueDeparturesAndDestinations()
+                        )
                     )
 
                     RouteResultView(routeResultViewModel: routeResultViewModel)

@@ -20,11 +20,11 @@ class SuggestionsViewModel: ObservableObject {
     @Published var departureSuggestions: [CitySuggestion] = []
     @Published var destinationSuggestions: [CitySuggestion] = []
 
-    init(uniqueCities: (departures: [String], destinations: [String])) {
-        uniqueDepartures = uniqueCities.departures
+    init(uniqueDeparturesAndDestinations: (departures: [String], destinations: [String])) {
+        uniqueDepartures = uniqueDeparturesAndDestinations.departures
         updateSuggestions(for: .departure)
         
-        uniqueDestinations = uniqueCities.destinations
+        uniqueDestinations = uniqueDeparturesAndDestinations.destinations
         updateSuggestions(for: .destination)
     }
 

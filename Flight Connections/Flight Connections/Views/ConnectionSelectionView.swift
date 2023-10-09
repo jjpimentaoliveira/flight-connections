@@ -17,7 +17,7 @@ struct ConnectionSelectionView: View {
     @Binding var selectedDepartureCity: String
     @Binding var selectedDestinationCity: String
 
-    var buttonAction: () -> Void
+    var calculateRouteButtonAction: () -> Void
     @ObservedObject var suggestionsViewModel: SuggestionsViewModel
 
     @FocusState private var departureTextFieldIsFocused: Bool
@@ -31,6 +31,7 @@ struct ConnectionSelectionView: View {
             TextField("Departure City", text: $selectedDepartureCity)
                 .autocapitalization(.words)
                 .textFieldStyle(.roundedBorder)
+                .autocorrectionDisabled()
                 .focused($departureTextFieldIsFocused)
                 .onChange(of: departureTextFieldIsFocused) { _, newValue in
                     departureTextFieldIsFocused = newValue
@@ -51,6 +52,7 @@ struct ConnectionSelectionView: View {
             TextField("Destination City", text: $selectedDestinationCity)
                 .autocapitalization(.words)
                 .textFieldStyle(.roundedBorder)
+                .autocorrectionDisabled()
                 .focused($destinationTextFieldIsFocused)
                 .onChange(of: destinationTextFieldIsFocused) { _, newValue in
                     destinationTextFieldIsFocused = newValue
@@ -66,7 +68,7 @@ struct ConnectionSelectionView: View {
             }
 
             CalculateRouteButton {
-                buttonAction()
+                calculateRouteButtonAction()
             }
 
             Spacer()
@@ -85,7 +87,7 @@ struct ConnectionSelectionView: View {
     ConnectionSelectionView(
         selectedDepartureCity: .constant("Departure City"),
         selectedDestinationCity: .constant("Destination City"),
-        buttonAction: { }, 
-        suggestionsViewModel: SuggestionsViewModel(uniqueCities: ([], []))
+        calculateRouteButtonAction: { },
+        suggestionsViewModel: SuggestionsViewModel(uniqueDeparturesAndDestinations: ([], []))
     )
 }
