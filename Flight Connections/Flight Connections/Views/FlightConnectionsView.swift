@@ -17,45 +17,51 @@ struct FlightConnectionsView: View {
     @State private var routeFinderResult: Result<RouteFinderResult, RouteFinderError> = .failure(.invalidInput)
 
     var body: some View {
-        VStack {
-            switch flightConnectionViewModel.fetchState {
-            case .loading:
-                ProgressView()
+        NavigationView {
+            VStack {
+                switch flightConnectionViewModel.fetchState {
+                case .loading:
+                    ProgressView()
 
-            case .fetched(let connections):
-                ScrollView {
-                    ConnectionSelectionView(
-                        selectedDepartureCity: $selectedDepartureCity,
-                        selectedDestinationCity: $selectedDestinationCity,
-                        calculateRouteButtonAction: {
-                            flightRouteFinder.addConnections(connections)
-                            routeFinderResult = flightRouteFinder.findCheapestRoute(
-                                departureCity: selectedDepartureCity,
-                                destinationCity: selectedDestinationCity
+                case .fetched(let connections):
+                    ScrollView {
+                        ConnectionSelectionView(
+                            selectedDepartureCity: $selectedDepartureCity,
+                            selectedDestinationCity: $selectedDestinationCity,
+                            calculateRouteButtonAction: {
+                                flightRouteFinder.addConnections(connections)
+                                routeFinderResult = flightRouteFinder.findCheapestRoute(
+                                    departureCity: selectedDepartureCity,
+                                    destinationCity: selectedDestinationCity
+                                )
+                                routeResultViewModel.updateResultText(result: routeFinderResult)
+                            },
+                            swapButtonAction: {
+                                swap(&selectedDepartureCity, &selectedDestinationCity)
+                            },
+                            suggestionsViewModel: SuggestionsViewModel(
+                                uniqueDeparturesAndDestinations: connections.uniqueDeparturesAndDestinations()
                             )
-                            routeResultViewModel.updateResultText(result: routeFinderResult)
-                        },
-                        swapButtonAction: {
-                            swap(&selectedDepartureCity, &selectedDestinationCity)
-                        },
-                        suggestionsViewModel: SuggestionsViewModel(
-                            uniqueDeparturesAndDestinations: connections.uniqueDeparturesAndDestinations()
                         )
-                    )
 
-                    RouteResultView(routeResultViewModel: routeResultViewModel)
+                        RouteResultView(
+                            routeResultViewModel: routeResultViewModel,
+                            routeFinderResult: routeFinderResult
+                        )
+                    }
+
+                case .error(let error):
+                    Text("Error occurred: \(error.localizedDescription)")
+                        .font(.headline)
+                        .padding()
                 }
-
-            case .error(let error):
-                Text("Error occurred: \(error.localizedDescription)")
-                    .font(.headline)
-                    .padding()
             }
+            .task {
+                await flightConnectionViewModel.fetchFlightConnections()
+            }
+            .padding()
         }
-        .task {
-            await flightConnectionViewModel.fetchFlightConnections()
-        }
-        .padding()
+        .navigationViewStyle(.stack)
     }
 }
 

@@ -31,6 +31,7 @@
 		CA8085F72AD1410C00E12ABF /* SuggestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8085F62AD1410C00E12ABF /* SuggestionsView.swift */; };
 		CAEDA9B32AD431C000C3A313 /* SwapButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEDA9B22AD431C000C3A313 /* SwapButton.swift */; };
 		CAEDA9B52AD4398F00C3A313 /* RouteFinderResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEDA9B42AD4398F00C3A313 /* RouteFinderResult.swift */; };
+		CADFBF9D2AD23AB700DF816B /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CADFBF9C2AD23AB700DF816B /* MapView.swift */; };
 		CAF942042AD0B1D5002B52EE /* RouteFinderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF942032AD0B1D5002B52EE /* RouteFinderError.swift */; };
 		CAF942062AD0BEE4002B52EE /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF942052AD0BEE4002B52EE /* City.swift */; };
 		CAF942082AD0C7E2002B52EE /* RouteResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF942072AD0C7E2002B52EE /* RouteResultViewModel.swift */; };
@@ -81,6 +82,7 @@
 		CA8085F62AD1410C00E12ABF /* SuggestionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestionsView.swift; sourceTree = "<group>"; };
 		CAEDA9B22AD431C000C3A313 /* SwapButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwapButton.swift; sourceTree = "<group>"; };
 		CAEDA9B42AD4398F00C3A313 /* RouteFinderResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteFinderResult.swift; sourceTree = "<group>"; };
+		CADFBF9C2AD23AB700DF816B /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		CAF942032AD0B1D5002B52EE /* RouteFinderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteFinderError.swift; sourceTree = "<group>"; };
 		CAF942052AD0BEE4002B52EE /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		CAF942072AD0C7E2002B52EE /* RouteResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteResultViewModel.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 				9F6768C42AD0424400E17473 /* RouteResultView.swift */,
 				CA8085F62AD1410C00E12ABF /* SuggestionsView.swift */,
 				CAEDA9B22AD431C000C3A313 /* SwapButton.swift */,
+				CADFBF9C2AD23AB700DF816B /* MapView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 				CA055F572ACB6FD10091C833 /* FlightServiceAPIProtocol.swift in Sources */,
 				CA8085F52AD140AD00E12ABF /* SuggestionsViewModel.swift in Sources */,
 				CAEDA9B32AD431C000C3A313 /* SwapButton.swift in Sources */,
+				CADFBF9D2AD23AB700DF816B /* MapView.swift in Sources */,
 				CA055F5C2ACB78440091C833 /* FlightServiceAPIError.swift in Sources */,
 				CA8085F72AD1410C00E12ABF /* SuggestionsView.swift in Sources */,
 				CAEDA9B52AD4398F00C3A313 /* RouteFinderResult.swift in Sources */,
