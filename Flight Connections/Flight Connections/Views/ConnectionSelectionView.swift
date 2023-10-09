@@ -18,6 +18,7 @@ struct ConnectionSelectionView: View {
     @Binding var selectedDestinationCity: String
 
     var calculateRouteButtonAction: () -> Void
+    var swapButtonAction: () -> Void
     @ObservedObject var suggestionsViewModel: SuggestionsViewModel
 
     @FocusState private var departureTextFieldIsFocused: Bool
@@ -44,6 +45,10 @@ struct ConnectionSelectionView: View {
                         selectedDepartureCity = selectedCity
                     }
                 )
+            }
+
+            SwapButton {
+                swapButtonAction()
             }
 
             Text("Select Destination City:")
@@ -88,6 +93,7 @@ struct ConnectionSelectionView: View {
         selectedDepartureCity: .constant("Departure City"),
         selectedDestinationCity: .constant("Destination City"),
         calculateRouteButtonAction: { },
+        swapButtonAction: { },
         suggestionsViewModel: SuggestionsViewModel(uniqueDeparturesAndDestinations: ([], []))
     )
 }
