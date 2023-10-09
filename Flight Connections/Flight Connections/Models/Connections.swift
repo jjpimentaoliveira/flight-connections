@@ -27,8 +27,8 @@ struct Connections: Codable {
         }
 
         return (
-            departures: Array(uniqueDepartureSet),
-            destinations: Array(uniqueDestinationSet)
+            departures: Array(uniqueDepartureSet).sorted(),
+            destinations: Array(uniqueDestinationSet).sorted()
         )
     }
 }
