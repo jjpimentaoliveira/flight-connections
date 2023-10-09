@@ -17,7 +17,7 @@ class RouteResultViewModel: ObservableObject {
     /// In case of an error, it sets the `resultText` to display the error message.
     ///
     /// - Parameter result: A `Result` containing either a successful route or an error.
-    func updateResultText(result: Result<(route: [City], cost: Int), RouteFinderError>) {
+    func updateResultText(result: Result<RouteFinderResult, RouteFinderError>) {
         switch result {
         case .success(let result):
             if result.route.count == 1 {

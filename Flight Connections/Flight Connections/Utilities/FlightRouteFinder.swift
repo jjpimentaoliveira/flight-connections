@@ -69,7 +69,7 @@ class FlightRouteFinder {
     ///   - destinationCity: The name of the destination city.
     ///
     /// - Returns: A `Result` containing the cheapest route and its cost if a valid route is found, or a `RouteFinderError` if the input is invalid or no route is found.
-    func findCheapestRoute(departureCity: String, destinationCity: String) -> Result<(route: [City], cost: Int), RouteFinderError> {
+    func findCheapestRoute(departureCity: String, destinationCity: String) -> Result<RouteFinderResult, RouteFinderError> {
         let departureCity = departureCity.capitalized.trimmingCharacters(in: .whitespaces)
         let destinationCity = destinationCity.capitalized.trimmingCharacters(in: .whitespaces)
 
@@ -129,6 +129,9 @@ class FlightRouteFinder {
         }
 
         print("Cheapest route found: \(citiesInCheapestRoute.map { $0.name }), Cost: \(minCost)")
-        return .success((citiesInCheapestRoute, minCost))
+        return .success(RouteFinderResult(
+            route: citiesInCheapestRoute,
+            cost: minCost
+        ))
     }
 }

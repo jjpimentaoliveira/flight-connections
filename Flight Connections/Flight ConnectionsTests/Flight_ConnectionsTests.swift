@@ -216,9 +216,9 @@ final class Flight_ConnectionsTests: XCTestCase {
         XCTAssertNotNil(result3)
 
         switch result1 {
-        case .success(let (route, cost)):
-            XCTAssertEqual(cost, 100)
-            XCTAssertEqual(route, [
+        case .success(let result):
+            XCTAssertEqual(result.cost, 100)
+            XCTAssertEqual(result.route, [
                 City(name: "Tokyo", coordinate: Coordinate(lat: 35.652832, long: 139.839478)),
                 City(name: "Sydney", coordinate: Coordinate(lat: -33.865143, long: 151.2099))
             ])
@@ -228,9 +228,9 @@ final class Flight_ConnectionsTests: XCTestCase {
         }
 
         switch result2 {
-        case .success(let (route, cost)):
-            XCTAssertEqual(cost, 320)
-            XCTAssertEqual(route, [
+        case .success(let result):
+            XCTAssertEqual(result.cost, 320)
+            XCTAssertEqual(result.route, [
                 City(name: "London", coordinate: Coordinate(lat: 51.5285582, long: -0.241681)),
                 City(name: "Tokyo", coordinate: Coordinate(lat: 35.652832, long: 139.839478)),
                 City(name: "Sydney", coordinate: Coordinate(lat: -33.865143, long: 151.2099))
@@ -241,9 +241,9 @@ final class Flight_ConnectionsTests: XCTestCase {
         }
 
         switch result3 {
-        case .success(let (route, cost)):
-            XCTAssertEqual(cost, 450)
-            XCTAssertEqual(route, [
+        case .success(let result):
+            XCTAssertEqual(result.cost, 450)
+            XCTAssertEqual(result.route, [
                 City(name: "Los Angeles", coordinate: Coordinate(lat: 34.052235, long: -118.243683)),
                 City(name: "Tokyo", coordinate: Coordinate(lat: 35.652832, long: 139.839478)),
                 City(name: "Sydney", coordinate: Coordinate(lat: -33.865143, long: 151.2099)),
@@ -263,9 +263,9 @@ final class Flight_ConnectionsTests: XCTestCase {
         XCTAssertNotNil(result)
 
         switch result {
-        case .success(let (route, cost)):
-            XCTAssertEqual(cost, 0)
-            XCTAssertEqual(route, [City(name: "Tokyo", coordinate: Coordinate(lat: 35.652832, long: 139.839478))])
+        case .success(let result):
+            XCTAssertEqual(result.cost, 0)
+            XCTAssertEqual(result.route, [City(name: "Tokyo", coordinate: Coordinate(lat: 35.652832, long: 139.839478))])
 
         case .failure(let error):
             XCTFail("Error finding cheapest route: \(error)")
@@ -367,29 +367,30 @@ final class Flight_ConnectionsTests: XCTestCase {
     }
 
     func testUpdateResultTextSuccess() {
-        let successResult: Result<(route: [City], cost: Int), RouteFinderError> = .success((
+        let successResult: Result<RouteFinderResult, RouteFinderError> = .success(RouteFinderResult(
             route: [
                 City(name: "City A", coordinate: Coordinate(lat: 10, long: 20)),
                 City(name: "City B", coordinate: Coordinate(lat: 20, long: 10))
             ],
             cost: 100
         ))
+
         routeResultViewModel?.updateResultText(result: successResult)
         XCTAssertEqual(routeResultViewModel?.resultText, "City A -> City B\nTravel costs: 100")
     }
 
     func testUpdateResultTextFailure() {
-        let failureResult1: Result<(route: [City], cost: Int), RouteFinderError> = .failure(.invalidInput)
+        let failureResult1: Result<RouteFinderResult, RouteFinderError> = .failure(.invalidInput)
         routeResultViewModel?.updateResultText(result: failureResult1)
         XCTAssertEqual(routeResultViewModel?.resultText, "No connection found: invalidInput")
 
-        let failureResult2: Result<(route: [City], cost: Int), RouteFinderError> = .failure(.noRouteFound)
+        let failureResult2: Result<RouteFinderResult, RouteFinderError> = .failure(.noRouteFound)
         routeResultViewModel?.updateResultText(result: failureResult2)
         XCTAssertEqual(routeResultViewModel?.resultText, "No connection found: noRouteFound")
     }
 
     func testUpdateResultTextSingleCity() {
-        let singleCityResult: Result<(route: [City], cost: Int), RouteFinderError> = .success((
+        let singleCityResult: Result<RouteFinderResult, RouteFinderError> = .success(RouteFinderResult(
             route: [
                 City(name: "A", coordinate: Coordinate(lat: 10, long: 20))
             ],

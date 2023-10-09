@@ -23,6 +23,7 @@ struct SuggestionsView: View {
                             onSuggestionSelected(city)
                             hideKeyboard()
                         }
+
                 case .noSuggestions:
                     Text("No suggestions")
                         .padding(8)
