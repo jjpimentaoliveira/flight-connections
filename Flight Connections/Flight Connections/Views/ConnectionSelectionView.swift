@@ -31,6 +31,7 @@ struct ConnectionSelectionView: View {
             TextField("Departure City", text: $selectedDepartureCity)
                 .autocapitalization(.words)
                 .textFieldStyle(.roundedBorder)
+                .autocorrectionDisabled()
                 .focused($departureTextFieldIsFocused)
                 .onChange(of: departureTextFieldIsFocused) { _, newValue in
                     departureTextFieldIsFocused = newValue
@@ -51,6 +52,7 @@ struct ConnectionSelectionView: View {
             TextField("Destination City", text: $selectedDestinationCity)
                 .autocapitalization(.words)
                 .textFieldStyle(.roundedBorder)
+                .autocorrectionDisabled()
                 .focused($destinationTextFieldIsFocused)
                 .onChange(of: destinationTextFieldIsFocused) { _, newValue in
                     destinationTextFieldIsFocused = newValue
