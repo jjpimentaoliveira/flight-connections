@@ -22,6 +22,9 @@ class FlightRouteFinder {
     ///
     /// Only connections with valid 'from' and 'to' city names, and non-negative prices will be added to the `FlightRouteFinder`.
     func addConnections(_ connections: Connections) {
+        
+        departureCities.removeAll()
+
         for connection in connections.connections {
             guard
                 let from = connection.from, from.trimmingCharacters(in: .whitespaces).isEmpty == false,
@@ -87,6 +90,8 @@ class FlightRouteFinder {
         func exploreConnections(currentRoute: [String], currentCost: Int, currentCity: String, visited: Set<String>) {
             print("Exploring connections from: \(currentCity)")
 
+            let updatedVisited = visited.union([currentCity])
+
             guard currentCity != destinationCity else {
                 if currentCost < minCost {
                     minCost = currentCost
@@ -106,7 +111,7 @@ class FlightRouteFinder {
             for connection in connections {
                 if
                     let newCity = connection.to,
-                    visited.contains(newCity) == false,
+                    updatedVisited.contains(newCity) == false,
                     currentRoute.contains(newCity) == false
                 {
                     let newRoute = currentRoute + [newCity]
@@ -115,7 +120,7 @@ class FlightRouteFinder {
                         currentRoute: newRoute,
                         currentCost: newCost,
                         currentCity: newCity,
-                        visited: visited.union([newCity])
+                        visited: updatedVisited
                     )
                 }
             }
