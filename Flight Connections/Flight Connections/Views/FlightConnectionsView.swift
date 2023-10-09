@@ -27,7 +27,7 @@ struct FlightConnectionsView: View {
                     ConnectionSelectionView(
                         selectedDepartureCity: $selectedDepartureCity,
                         selectedDestinationCity: $selectedDestinationCity,
-                        buttonAction: {
+                        calculateRouteButtonAction: {
                             flightRouteFinder.addConnections(connections)
                             routeFinderResult = flightRouteFinder.findCheapestRoute(
                                 departureCity: selectedDepartureCity,
