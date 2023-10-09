@@ -35,6 +35,9 @@ struct FlightConnectionsView: View {
                             )
                             routeResultViewModel.updateResultText(result: routeFinderResult)
                         },
+                        swapButtonAction: {
+                            swap(&selectedDepartureCity, &selectedDestinationCity)
+                        },
                         suggestionsViewModel: SuggestionsViewModel(
                             uniqueDeparturesAndDestinations: connections.uniqueDeparturesAndDestinations()
                         )
